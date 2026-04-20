@@ -19,6 +19,7 @@ def get_files(project_name: str, project_slug: str, project_type: str) -> list[t
         ("pyproject.toml",    _pyproject_toml(project_name, project_slug, project_type)),
         (".gitignore",        _gitignore()),
         (".python-version",   "3.10\n"),
+        ("Makefile",          _makefile(project_slug, project_type)),
     ]
 
 
@@ -154,6 +155,51 @@ Thumbs.db
 # ── Reports (optional – kommentiere aus, wenn du Reports tracken willst) ───
 # reports/figures/
 # reports/tables/
+"""
+
+
+def _makefile(project_slug: str, project_type: str) -> str:
+    extras = project_type.lower()
+    return f"""\
+# Makefile – {project_slug}
+# -------------------------
+# Shortcuts für Entwicklung & Setup.
+# Verwendung: make <target>
+#
+# Voraussetzung: uv installiert (pip install uv)
+
+.PHONY: setup install kernel test lint clean help
+
+setup: ## Virtuelle Umgebung erstellen + Dependencies installieren
+\tuv venv
+\t. .venv/bin/activate && uv pip install -e ".[{extras},dev]"
+\t@echo ""
+\t@echo "✅ Setup fertig. Umgebung aktivieren mit:"
+\t@echo "   source .venv/bin/activate"
+
+install: ## Dependencies (neu) installieren
+\t. .venv/bin/activate && uv pip install -e ".[{extras},dev]"
+
+kernel: ## Jupyter Kernel registrieren
+\t. .venv/bin/activate && python -m ipykernel install --user --name {project_slug} --display-name "Python ({project_slug})"
+\t@echo "✅ Kernel '{project_slug}' registriert."
+
+test: ## Tests ausführen
+\t. .venv/bin/activate && pytest tests/ -v
+
+lint: ## Code prüfen (ruff + black)
+\t. .venv/bin/activate && ruff check src/ && black --check src/
+
+format: ## Code formatieren (black)
+\t. .venv/bin/activate && black src/
+
+clean: ## Umgebung + Cache aufräumen
+\trm -rf .venv __pycache__ src/*.egg-info .pytest_cache
+\tfind . -type d -name __pycache__ -exec rm -rf {{}} + 2>/dev/null || true
+\t@echo "✅ Aufgeräumt."
+
+help: ## Alle verfügbaren Targets anzeigen
+\t@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {{FS = ":.*?## "}}; {{printf "  \\033[36m%-12s\\033[0m %s\\n", $$1, $$2}}'
 """
 
 
