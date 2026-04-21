@@ -189,7 +189,7 @@ from wgnd.inspect import (
     inspect_outlier_detail,
     inspect_correlations,
 )
-from wgnd.core._output import success, warn, info_box, show_df
+from wgnd.core._output import success, warn, log, info_box, show_df, section_header
 
 from {project_slug}.config import PATHS, PROJECT_NAME, RANDOM_SEED
 from {project_slug}.settings import setup_plotting
@@ -198,7 +198,7 @@ __all__ = [
     "pd", "np", "plt", "sns", "Path",
     "inspect", "inspect_missing", "inspect_duplicates",
     "inspect_outliers", "inspect_outlier_detail", "inspect_correlations",
-    "success", "warn", "info_box", "show_df",
+    "success", "warn", "log", "info_box", "show_df", "section_header",
     "PATHS", "PROJECT_NAME", "RANDOM_SEED", "setup_plotting",
 ]
 '''
