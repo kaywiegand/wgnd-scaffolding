@@ -5,10 +5,10 @@ Notebook-Definitionen fuer den Typ: DAN (Data Analytics)
 
 Notebooks:
   00_introduction.ipynb      - Project Facts, Context, Workflow, Conventions
-  01_exploration.ipynb       - EDA
-  02_preprocessing.ipynb     - Cleaning, Features, Export
-  03_advanced_analytics.ipynb
-  04_business_report.ipynb   - Business Insights + Reporting zusammengefuehrt
+  01_exploration.ipynb       - EDA + Discovery
+  02_preparation.ipynb       - Preparation + Preprocessing, Export
+  03_analysis.ipynb          - Import, Analysis + Analytics
+  04_insights.ipynb          - Business Communication + Insights
 
 ANPASSEN: Aendere Zellen-Inhalte in den jeweiligen _nb_*()-Funktionen.
 """
@@ -19,10 +19,10 @@ from .notebook_helper import make_notebook
 def get_notebooks(project_name: str, project_slug: str) -> list[tuple[str, str]]:
     return [
         ("notebooks/00_introduction.ipynb",      _nb_introduction(project_name)),
-        ("notebooks/01_exploration.ipynb",        _nb_exploration()),
-        ("notebooks/02_preprocessing.ipynb",      _nb_preprocessing()),
-        ("notebooks/03_advanced_analytics.ipynb", _nb_advanced_analytics()),
-        ("notebooks/04_business_report.ipynb",    _nb_business_report()),
+        ("notebooks/01_exploration.ipynb",       _nb_exploration()),
+        ("notebooks/02_preparation.ipynb",       _nb_preparation()),
+        ("notebooks/03_analysis.ipynb",          _nb_analysis()),
+        ("notebooks/04_insights.ipynb",          _nb_insights()),
     ]
 
 
@@ -59,7 +59,7 @@ def _nb_introduction(project_name: str) -> str:
         ("markdown",
          "## Workflow\n\n"
          "### Phases\n\n"
-         "| Phase | 01 Exploration & Discovery | 02 Preparation & Preprocessing | 03 Analysis | 04 Communication & Insights |\n"
+         "| Phase | 01 Exploration & Discovery | 02 Preparation & Preprocessing | 03 Analysis & Analytics | 04 Communication & Insights |\n"
          "|-------|-------------------|---------------------|------------------|------------------|\n"
          "| | Data Acquisition  | Data Cleaning       | Statistical Analysis | Insight Delivery |\n"
          "| | Initial Profiling | Outlier Handling    | Pattern Recognition  | Data Storytelling |\n"
@@ -83,7 +83,7 @@ def _nb_introduction(project_name: str) -> str:
 
 def _nb_exploration() -> str:
     cells = [
-        ("markdown", "# Exploratory Data Analysis (EDA)"),
+        ("markdown", "# Exploratory Data Analysis (EDA) & Discovery"),
         ("markdown", "## Data Acquisition\n\n### Preparation\n\n#### Imports"),
         ("code",
          "import pandas as pd\n"
@@ -132,9 +132,9 @@ def _nb_exploration() -> str:
     return make_notebook(cells)
 
 
-def _nb_preprocessing() -> str:
+def _nb_preparation() -> str:
     cells = [
-        ("markdown", "# Preprocessing"),
+        ("markdown", "# Preparation & Preprocessing"),
         ("markdown", "## Data Import"),
         ("code",
          "import pandas as pd\n"
@@ -167,9 +167,9 @@ def _nb_preprocessing() -> str:
     return make_notebook(cells)
 
 
-def _nb_advanced_analytics() -> str:
+def _nb_analysis() -> str:
     cells = [
-        ("markdown", "# Advanced Analytics"),
+        ("markdown", "# Analysis & Analytics"),
         ("markdown", "## Business Case\n\n> _Welche Fragen sollen hier beantwortet werden?_"),
         ("code",
          "import pandas as pd\n"
@@ -197,9 +197,9 @@ def _nb_advanced_analytics() -> str:
     return make_notebook(cells)
 
 
-def _nb_business_report() -> str:
+def _nb_insights() -> str:
     cells = [
-        ("markdown", "# Reporting & Storytelling"),
+        ("markdown", "# Business Communication & Insights"),
         ("markdown",
          "## Executive Summary\n\n"
          "> _3-5 Saetze: Was war die Frage, was haben wir gefunden, was empfehlen wir?_"),
