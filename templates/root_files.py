@@ -62,6 +62,7 @@ dependencies = [
   "joblib>=1.3",
   "python-dotenv>=1.0",
   "rich>=13.0",
+  "pyarrow>=14.0",
   "wgnd @ git+https://github.com/kaywiegand/wgnd-toolkit.git@main",
 ]
 

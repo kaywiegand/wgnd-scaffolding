@@ -48,6 +48,7 @@ def get_files(project_name: str, project_slug: str, project_type: str) -> list[t
             (f"{base_path}/__init__.py", _init_py(project_name)),
             (f"{base_path}/config.py", _config_py(project_name, project_slug)),
             (f"{base_path}/settings.py", _settings_py()),
+            (f"{base_path}/notebook.py", _notebook_py(project_slug)),
             (f"{base_path}/utils.py", _utils_py()),
             (f"{base_path}/data/__init__.py", ""),
             (f"{base_path}/features/__init__.py", ""),
@@ -113,9 +114,6 @@ Visuelle und Logging-Konfiguration:
   - wgnd Theme (Matplotlib / Seaborn)
   - Farbpaletten
   - Logging-Format
-
-Importiere in Notebooks ganz oben:
-    from {project_slug}.settings import setup_plotting, logger
 """
 
 import logging
@@ -133,14 +131,27 @@ DPI              = 120
 
 
 def setup_plotting() -> None:
-    """Setzt wgnd-Theme und Matplotlib/Seaborn auf einheitliches Projekt-Theme."""
+    """Setzt wgnd-Theme, Notebook-Optionen und autoreload."""
+    import pandas as pd
     from wgnd.core.theme import setup as wgnd_setup
+
     wgnd_setup()
     plt.rcParams.update({
         "figure.figsize": FIGSIZE_DEFAULT,
         "figure.dpi":     DPI,
     })
-    print("✅ Plot-Settings geladen (wgnd theme aktiv).")
+    pd.set_option("display.notebook_repr_html", True)
+    pd.set_option("display.max_rows", 10)
+    pd.set_option("display.max_columns", None)
+
+    try:
+        from IPython import get_ipython
+        ip = get_ipython()
+        if ip:
+            ip.run_line_magic("load_ext", "autoreload")
+            ip.run_line_magic("autoreload", "2")
+    except Exception:
+        pass
 
 
 # ─── Logging ───────────────────────────────────────────────────────────────
@@ -150,6 +161,46 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger("project")
+'''
+
+
+def _notebook_py(project_slug: str) -> str:
+    return f'''"""
+notebook.py
+-----------
+Zentraler Einstiegspunkt für alle Notebooks.
+Importiere einmalig am Anfang jedes Notebooks:
+
+    from {project_slug}.notebook import *
+    setup_plotting()
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from pathlib import Path
+
+from wgnd.inspect import (
+    inspect,
+    inspect_missing,
+    inspect_duplicates,
+    inspect_outliers,
+    inspect_outlier_detail,
+    inspect_correlations,
+)
+from wgnd.core._output import success, warn, info_box, show_df
+
+from {project_slug}.config import PATHS, PROJECT_NAME, RANDOM_SEED
+from {project_slug}.settings import setup_plotting
+
+__all__ = [
+    "pd", "np", "plt", "sns", "Path",
+    "inspect", "inspect_missing", "inspect_duplicates",
+    "inspect_outliers", "inspect_outlier_detail", "inspect_correlations",
+    "success", "warn", "info_box", "show_df",
+    "PATHS", "PROJECT_NAME", "RANDOM_SEED", "setup_plotting",
+]
 '''
 
 
