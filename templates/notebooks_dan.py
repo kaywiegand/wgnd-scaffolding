@@ -59,24 +59,26 @@ def _nb_introduction(project_name: str) -> str:
         ("markdown",
          "## Workflow\n\n"
          "### Phases\n\n"
-         "| Phase | 01 Exploration | 02 Preprocessing | 03 Advanced Analytics | 04 Business Report |\n"
-         "|-------|----------------|------------------|-----------------------|--------------------|\n"
-         "| | Data Acquisition | Data Cleaning | Market Segmentation | Strategy Recommendations |\n"
-         "| | EDA | Outlier Handling | Competition Analysis | Key Visualizations |\n"
-         "| | Outlier Detection | Feature Engineering | Weighted Scoring | Recommendations |\n"
-         "| | Key Findings | Data Export | Cluster Analysis | Executive Summary |"),
+         "| Phase | 01 Exploration & Discovery | 02 Preparation & Preprocessing | 03 Analysis | 04 Communication & Insights |\n"
+         "|-------|-------------------|---------------------|------------------|------------------|\n"
+         "| | Data Acquisition  | Data Cleaning       | Statistical Analysis | Insight Delivery |\n"
+         "| | Initial Profiling | Outlier Handling    | Pattern Recognition  | Data Storytelling |\n"
+         "| | Quality Audit     | Transformation      | Hypothesis Testing   | Strategic Advice |\n"
+         "| | Key Findings      | Feature Engineering | Result Aggregation   | Executive Summary|"),
         ("markdown",
          "### Conventions\n\n"
          "| Variable | Phase | Zustand |\n"
          "|----------|-------|---------|\n"
-         "| `df_raw` | Data Loading | Urzustand - wird nie veraendert |\n"
-         "| `df_eda` | Exploration | Basis fuer Analyse, noch mit Fehlern |\n"
-         "| `df_impute` | Cleaning | Arbeits-State: NaNs ersetzt |\n"
-         "| `df_clean` | Inspection | Gold-Standard: bereinigt |\n\n"
-         "> **Regel:** Immer mit `df_raw = pd.read_csv(...)` starten und"
-         " fuer jeden Schritt `.copy()` verwenden."),
+         "| `df_raw` | Loading | Originalzustand – schreibgeschützt |\n"
+         "| `df_eda` | Exploration | Initiale Daten zur explorativen Analyse |\n"
+         "| `df_edit` | Preparation & Processing | Bereinigt, transformiert & aggregiert (Arbeitsbasis) |\n"
+         "| `df_final` | Analysis & Reporting | Finaler Output für Insights und Visualisierungen |\n\n"
+         "> **Best Practice:** Nutze für jeden Transformationsschritt `.copy()`, "
+         "um die Traceability zu gewährleisten und `df_raw` niemals zu überschreiben."),
     ]
     return make_notebook(cells)
+
+
 
 
 def _nb_exploration() -> str:
