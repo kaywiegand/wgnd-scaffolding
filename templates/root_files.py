@@ -20,6 +20,9 @@ def get_files(project_name: str, project_slug: str, project_type: str) -> list[t
         (".gitignore",        _gitignore()),
         (".python-version",   "3.10\n"),
         ("Makefile",          _makefile(project_slug, project_type)),
+        ("PROCESS_LOG.md",    _process_log(project_name)),
+        ("ROADMAP.md",        _roadmap(project_name)),
+        ("CLAUDE.md",         _claude_md(project_name, project_slug, project_type)),
     ]
 
 
@@ -201,6 +204,95 @@ clean: ## Umgebung + Cache aufräumen
 
 help: ## Alle verfügbaren Targets anzeigen
 \t@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {{FS = ":.*?## "}}; {{printf "  \\033[36m%-12s\\033[0m %s\\n", $$1, $$2}}'
+"""
+
+
+def _process_log(project_name: str) -> str:
+    from datetime import datetime
+    today = datetime.today().strftime("%Y-%m-%d")
+    return f"""\
+# PROCESS_LOG.md – {project_name}
+
+> Projektverlauf und AI-Kontext-Einstieg.
+> Dieses File ist der Einstiegspunkt für neue Claude-Sessions.
+
+---
+
+## Projekt-Übersicht
+
+| Feld | Inhalt |
+| :--- | :--- |
+| Projektname | {project_name} |
+| Erstellt | {today} |
+| Status | 🔜 Setup |
+| Nächster Schritt | EDA starten |
+
+---
+
+## Verlauf
+
+### {today} – Projekt aufgesetzt
+
+- Projektstruktur mit wgnd-scaffolding generiert.
+- Nächste Schritte: Daten laden, erste EDA.
+
+---
+"""
+
+
+def _roadmap(project_name: str) -> str:
+    return f"""\
+# ROADMAP.md – {project_name}
+
+## Phase 1 – Setup & Daten
+- [ ] Projektstruktur aufsetzen
+- [ ] Datenquellen identifizieren
+- [ ] Rohdaten laden und prüfen
+
+## Phase 2 – EDA
+- [ ] Explorative Datenanalyse
+- [ ] Erste Visualisierungen
+- [ ] Hypothesen formulieren
+
+## Phase 3 – Modell / Analyse
+- [ ] Feature Engineering
+- [ ] Modell / Analyse umsetzen
+- [ ] Ergebnisse bewerten
+
+## Phase 4 – Abschluss
+- [ ] Report / Dashboard
+- [ ] README finalisieren
+- [ ] Repo aufräumen und archivieren
+"""
+
+
+def _claude_md(project_name: str, project_slug: str, project_type: str) -> str:
+    return f"""\
+# CLAUDE.md – {project_name}
+
+> Projektspezifische Anweisungen für Claude Code.
+> Ergänzt die globale CLAUDE.md aus dem wgnd-workspace.
+
+---
+
+## Projekt
+
+| Feld | Inhalt |
+| :--- | :--- |
+| Slug | `{project_slug}` |
+| Typ | {project_type} |
+| Stack | Polars · Plotly · Jupyter |
+
+## Kontext-Einstieg
+
+1. `PROCESS_LOG.md` lesen — aktueller Projektstand
+2. `ROADMAP.md` lesen — offene Phasen und Tasks
+3. Globale `CLAUDE.md` aus `/Users/kaywiegand/Workspace/` gilt weiterhin
+
+## Projektspezifische Hinweise
+
+_Hier projektspezifische Overrides ergänzen, z.B. besondere Datenquellen,
+Naming-Konventionen oder Abhängigkeiten zu anderen Repos._
 """
 
 

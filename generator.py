@@ -157,20 +157,19 @@ def main() -> None:
     project_slug = args.slug.strip() if args.slug else slugify(project_name)
     parent_dir   = Path(args.path).expanduser().resolve()
 
-    # Slug validieren
-    if not re.match(r"^[a-z_][a-z0-9_]*$", project_slug):
+    # Slug validieren — Bindestriche erlaubt (z.B. dansc_zh-tram-flow)
+    if not re.match(r"^[a-z_][a-z0-9_-]*$", project_slug):
         err(f"Ungültiger Slug: '{project_slug}'")
-        err("Nur Kleinbuchstaben, Ziffern und Unterstriche erlaubt. Darf nicht mit Ziffer beginnen.")
+        err("Nur Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Darf nicht mit Ziffer beginnen.")
         sys.exit(1)
 
-    project_dir_name = dir_name_from(project_name)
-    project_dir = parent_dir / project_dir_name
+    project_dir = parent_dir / project_slug
 
     # ── Header ausgeben ────────────────────────────────────────────────────
     head("DAN/DSC Scaffolding Generator")
     sep()
     info(f"Projektname : {project_name}")
-    info(f"Slug        : {project_slug}")
+    info(f"Slug/Ordner : {project_slug}")
     info(f"Typ         : {project_type}")
     info(f"Ziel        : {project_dir}")
     sep()
