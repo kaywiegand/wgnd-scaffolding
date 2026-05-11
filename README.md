@@ -178,10 +178,26 @@ python generator.py --slug zomato --name "Zomato Market Analysis" \
 
 ## Was wird generiert?
 
+### Projektdokumentation (Root-Ebene)
+
+| File | Zweck |
+| :--- | :--- |
+| `PROCESS_LOG.md` | Projektverlauf und AI-Kontext-Einstieg — wird am Anfang jeder Claude-Session gelesen |
+| `ROADMAP.md` | Phasen und offene Tasks — Checkliste durch das Projekt |
+| `CLAUDE.md` | Projektspezifische Anweisungen für Claude Code — ergänzt die globale CLAUDE.md |
+| `README.md` | Projektbeschreibung für Menschen — GitHub-Startseite |
+
 ### Ordnerstruktur (DAN)
 
 ```
 <slug>/
+├── PROCESS_LOG.md      ← Projektverlauf & AI-Kontext-Einstieg
+├── ROADMAP.md          ← Phasen & offene Tasks
+├── CLAUDE.md           ← projektspezifische Claude-Anweisungen
+├── README.md           ← Projektbeschreibung
+├── pyproject.toml      ← Dependencies & Paket-Konfiguration
+├── Makefile            ← Shortcuts (make setup, make kernel, ...)
+├── .gitignore
 ├── src/<slug>/
 │   ├── __init__.py
 │   ├── config.py       ← PATHS, PROJECT_NAME, RANDOM_SEED
@@ -199,15 +215,13 @@ python generator.py --slug zomato --name "Zomato Market Analysis" \
 │   ├── 03_analysis.ipynb
 │   └── 04_insights.ipynb
 ├── data/
-│   ├── raw/
-│   ├── interim/
-│   └── processed/
-├── reports/figures/
-├── models/
-├── tests/
-├── pyproject.toml
-├── Makefile
-└── .gitignore
+│   ├── raw/            ← Rohdaten (nicht in Git)
+│   ├── interim/        ← Zwischenergebnisse (nicht in Git)
+│   └── processed/      ← Finale Daten (nicht in Git)
+├── reports/
+│   ├── figures/        ← Exportierte Plots
+│   └── index.html      ← Executive Summary Template
+└── tests/
 ```
 
 ### `notebook.py` — was drin steckt
