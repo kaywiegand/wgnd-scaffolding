@@ -11,7 +11,7 @@ damit sie in Git getrackt werden können.
 from datetime import datetime
 
 
-def get_folders(project_slug: str, project_type: str) -> list[str]:
+def get_folders(package_name: str, project_type: str) -> list[str]:
     """
     Gibt eine Liste aller zu erstellenden Ordner zurueck.
 
@@ -26,10 +26,10 @@ def get_folders(project_slug: str, project_type: str) -> list[str]:
             "data/interim",
             "data/processed",
             "notebooks",
-            f"src/{project_slug}/data",
-            f"src/{project_slug}/features",
-            f"src/{project_slug}/visualization",
-            f"src/{project_slug}/analytics",
+            f"src/{package_name}/data",
+            f"src/{package_name}/features",
+            f"src/{package_name}/visualization",
+            f"src/{package_name}/analytics",
             "tests",
             "reports/figures",
             "reports/tables",
@@ -41,11 +41,11 @@ def get_folders(project_slug: str, project_type: str) -> list[str]:
         "data/interim",
         "data/processed",
         "notebooks",
-        f"src/{project_slug}/data",
-        f"src/{project_slug}/features",
-        f"src/{project_slug}/visualization",
-        f"src/{project_slug}/modeling",
-        f"src/{project_slug}/evaluation",
+        f"src/{package_name}/data",
+        f"src/{package_name}/features",
+        f"src/{package_name}/visualization",
+        f"src/{package_name}/modeling",
+        f"src/{package_name}/evaluation",
         "tests",
         "configs",
         f"models/{today}",

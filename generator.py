@@ -158,19 +158,25 @@ def main() -> None:
     project_type = args.type.upper()
     parent_dir   = Path(args.path).expanduser().resolve()
 
-    # Slug validieren — Bindestriche erlaubt (z.B. dansc_zh-tram-flow)
+    # Slug validieren — Bindestriche erlaubt (z.B. zh-tram-flow)
     if not re.match(r"^[a-z_][a-z0-9_-]*$", project_slug):
         err(f"Ungültiger Slug: '{project_slug}'")
         err("Nur Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Darf nicht mit Ziffer beginnen.")
         sys.exit(1)
 
-    project_dir = parent_dir / project_slug
+    # package_name: Python-importierbarer Name (Bindestriche → Unterstriche)
+    package_name = project_slug.replace("-", "_")
+    # folder_name: Projektordner = type_slug (z.B. dan_zh-tram-flow)
+    folder_name  = f"{project_type.lower()}_{project_slug}"
+    project_dir  = parent_dir / folder_name
 
     # ── Header ausgeben ────────────────────────────────────────────────────
     head("DAN/DSC Scaffolding Generator")
     sep()
     info(f"Projektname : {project_name}")
-    info(f"Slug/Ordner : {project_slug}")
+    info(f"Slug        : {project_slug}")
+    info(f"Paket       : {package_name}  (src/{package_name}/)")
+    info(f"Ordner      : {folder_name}")
     info(f"Typ         : {project_type}")
     info(f"Ziel        : {project_dir}")
     sep()
@@ -200,7 +206,7 @@ def main() -> None:
 
     # ── 1. Ordner erstellen ────────────────────────────────────────────────
     head("1/5  Ordner erstellen")
-    folders = get_folders(project_slug, project_type)
+    folders = get_folders(package_name, project_type)
     for folder_rel in folders:
         folder_abs = project_dir / folder_rel
         try:
@@ -215,7 +221,7 @@ def main() -> None:
 
     # ── 2. Root-Dateien schreiben ──────────────────────────────────────────
     head("2/5  Root-Dateien")
-    root_files = get_root_files(project_name, project_slug, project_type)
+    root_files = get_root_files(project_name, project_slug, project_type, package_name)
     for rel_path, content in root_files:
         try:
             write_file(project_dir, rel_path, content)
@@ -235,9 +241,9 @@ def main() -> None:
     # ── 4. Source-Dateien ─────────────────────────────────────────────────
     head("4/5  Source-Dateien (src/ · configs/ · tests/ · docs/)")
     all_source_files = (
-        get_src_files(project_name, project_slug, project_type)
+        get_src_files(project_name, package_name, project_type)
         + get_config_files(project_name, project_slug, project_type)
-        + get_test_files(project_slug, project_type)
+        + get_test_files(package_name, project_type)
         + get_docs_files(project_name, project_type)
     )
     for rel_path, content in all_source_files:
@@ -292,11 +298,11 @@ def main() -> None:
      {C.CYAN}uv pip install -e ".[{project_type.lower()}]"{C.RESET}
 
   7. Jupyter Kernel registrieren:
-     {C.CYAN}python -m ipykernel install --user --name {project_slug} --display-name "Python ({project_slug})"{C.RESET}
+     {C.CYAN}python -m ipykernel install --user --name {package_name} --display-name "Python ({package_name})"{C.RESET}
 
   8. Notebook öffnen:
      {C.CYAN}notebooks/00_introduction.ipynb{C.RESET}
-     → Oben rechts Kernel wählen: "{project_slug}"
+     → Oben rechts Kernel wählen: "{package_name}"
 
   Viel Erfolg! 🚀
 """)

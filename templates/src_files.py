@@ -13,14 +13,14 @@ Der Pfad ist relativ zum Projektstamm.
 from datetime import datetime
 
 
-def get_files(project_name: str, project_slug: str, project_type: str) -> list[tuple[str, str]]:
+def get_files(project_name: str, package_name: str, project_type: str) -> list[tuple[str, str]]:
     """
     Gibt alle src-Python-Dateien als (pfad, inhalt)-Liste zurück.
     """
-    base_path = f"src/{project_slug}"
+    base_path = f"src/{package_name}"
     files = [
         (f"{base_path}/__init__.py", _init_py(project_name)),
-        (f"{base_path}/config.py", _config_py(project_name, project_slug)),
+        (f"{base_path}/config.py", _config_py(project_name, package_name)),
         (f"{base_path}/settings.py", _settings_py()),
         (f"{base_path}/utils.py", _utils_py()),
         (f"{base_path}/data/__init__.py", ""),
@@ -46,9 +46,9 @@ def get_files(project_name: str, project_slug: str, project_type: str) -> list[t
         # Begruendung: kleine Projekte, eigene Scripts werden bei Bedarf ergaenzt
         files = [
             (f"{base_path}/__init__.py", _init_py(project_name)),
-            (f"{base_path}/config.py", _config_py(project_name, project_slug)),
+            (f"{base_path}/config.py", _config_py(project_name, package_name)),
             (f"{base_path}/settings.py", _settings_py()),
-            (f"{base_path}/notebook.py", _notebook_py(project_slug)),
+            (f"{base_path}/notebook.py", _notebook_py(package_name)),
             (f"{base_path}/utils.py", _utils_py()),
             (f"{base_path}/data/__init__.py", ""),
             (f"{base_path}/features/__init__.py", ""),
@@ -67,14 +67,14 @@ def _init_py(project_name: str) -> str:
     return f'"""{ project_name } – Source Package."""\n'
 
 
-def _config_py(project_name: str, project_slug: str) -> str:
+def _config_py(project_name: str, package_name: str) -> str:
     return f'''"""
 config.py
 ---------
 Zentrale Projektkonfiguration: Pfade, Konstanten, Umgebungsvariablen.
 
 Importiere dieses Modul in Notebooks oder Scripts:
-    from {project_slug}.config import PATHS, PROJECT_NAME
+    from {package_name}.config import PATHS, PROJECT_NAME
 """
 
 from pathlib import Path
@@ -164,14 +164,14 @@ logger = logging.getLogger("project")
 '''
 
 
-def _notebook_py(project_slug: str) -> str:
+def _notebook_py(package_name: str) -> str:
     return f'''"""
 notebook.py
 -----------
 Zentraler Einstiegspunkt für alle Notebooks.
 Importiere einmalig am Anfang jedes Notebooks:
 
-    from {project_slug}.notebook import *
+    from {package_name}.notebook import *
     setup_plotting()
 """
 
@@ -190,15 +190,16 @@ from wgnd.inspect import (
     inspect_correlations,
 )
 from wgnd.core._output import success, warn, log, info_box, show_df, section_header
+from wgnd.core.config import cfg
 
-from {project_slug}.config import PATHS, PROJECT_NAME, RANDOM_SEED
-from {project_slug}.settings import setup_plotting
+from {package_name}.config import PATHS, PROJECT_NAME, RANDOM_SEED
+from {package_name}.settings import setup_plotting
 
 __all__ = [
     "pd", "np", "plt", "sns", "Path",
     "inspect", "inspect_missing", "inspect_duplicates",
     "inspect_outliers", "inspect_outlier_detail", "inspect_correlations",
-    "success", "warn", "log", "info_box", "show_df", "section_header",
+    "success", "warn", "log", "info_box", "show_df", "section_header", "cfg",
     "PATHS", "PROJECT_NAME", "RANDOM_SEED", "setup_plotting",
 ]
 '''

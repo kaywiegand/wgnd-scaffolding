@@ -14,12 +14,13 @@ Paket-Management: uv + venv
 """
 
 
-def get_files(project_name: str, project_slug: str, project_type: str) -> list[tuple[str, str]]:
+def get_files(project_name: str, project_slug: str, project_type: str, package_name: str = "") -> list[tuple[str, str]]:
+    pkg = package_name or project_slug.replace("-", "_")
     return [
-        ("pyproject.toml",    _pyproject_toml(project_name, project_slug, project_type)),
+        ("pyproject.toml",    _pyproject_toml(project_name, pkg, project_type)),
         (".gitignore",        _gitignore()),
         (".python-version",   "3.10\n"),
-        ("Makefile",          _makefile(project_slug, project_type)),
+        ("Makefile",          _makefile(pkg, project_type)),
         ("PROCESS_LOG.md",    _process_log(project_name)),
         ("ROADMAP.md",        _roadmap(project_name)),
         ("CLAUDE.md",         _claude_md(project_name, project_slug, project_type)),
@@ -162,10 +163,10 @@ Thumbs.db
 """
 
 
-def _makefile(project_slug: str, project_type: str) -> str:
+def _makefile(package_name: str, project_type: str) -> str:
     extras = project_type.lower()
     return f"""\
-# Makefile – {project_slug}
+# Makefile – {package_name}
 # -------------------------
 # Shortcuts für Entwicklung & Setup.
 # Verwendung: make <target>
@@ -185,8 +186,8 @@ install: ## Dependencies (neu) installieren
 \t. .venv/bin/activate && uv pip install -e ".[{extras},dev]"
 
 kernel: ## Jupyter Kernel registrieren
-\t. .venv/bin/activate && python -m ipykernel install --user --name {project_slug} --display-name "Python ({project_slug})"
-\t@echo "✅ Kernel '{project_slug}' registriert."
+\t. .venv/bin/activate && python -m ipykernel install --user --name {package_name} --display-name "Python ({package_name})"
+\t@echo "✅ Kernel '{package_name}' registriert."
 
 test: ## Tests ausführen
 \t. .venv/bin/activate && pytest tests/ -v

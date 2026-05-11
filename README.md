@@ -142,34 +142,36 @@ Optionale Argumente:
   --help, -h    Diese Hilfe anzeigen
 ```
 
-### Was ist der Slug?
+### Namens-Logik
 
-Der Slug ist der technische Name des Projekts — er wird als **Ordnername** verwendet:
-- Projektordner: `<slug>/`
-- Python-Paket in `src/<slug>/`
-- Import-Name in Notebooks: `from <slug>.notebook import *`
+Der Generator leitet drei technische Namen aus deinen Eingaben ab:
 
-**Regeln:** Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Darf nicht mit Ziffer beginnen.
+| Name | Herkunft | Beispiel | Verwendung |
+| :--- | :--- | :--- | :--- |
+| **Slug** | `--slug` (Pflicht) | `zh-tram-flow` | Eindeutiger Bezeichner, Git-Repo-Name |
+| **Paketname** | Slug, Bindestriche → Unterstriche | `zh_tram_flow` | `src/zh_tram_flow/`, Python-Imports |
+| **Ordnername** | `{type}_{slug}` | `dan_zh-tram-flow` | Projektordner auf dem Filesystem |
+| **Projektname** | `--name` (optional) | `Zürich Tram Flow` | README-Titel, Docs — fällt auf Slug zurück |
 
-**Automatische Ableitung:** Aus `"NY Taxi Routes 2024!"` wird `ny_taxi_routes_2024`.
+**Slug-Regeln:** Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Darf nicht mit Ziffer beginnen. Kurz halten — nur das Thema, ohne Typ-Prefix.
 
-**Empfehlung:** Slug explizit angeben wenn das Naming-Schema Bindestriche verwendet (z.B. `dansc_zh-tram-flow`).
+**Ordner umbenennen:** Den Projektordner (`dan_zh-tram-flow`) kannst du später manuell umbenennen, z.B. in `dansc_zh-tram-flow` wenn das Projekt Analytics und Science kombiniert.
 
 ---
 
 ## Beispiele
 
 ```bash
-# DAN-Projekt — Slug reicht, Name wird aus Slug übernommen
-python generator.py --slug dansc_zh-tram-flow --path "." --type DAN
+# DAN-Projekt — Slug reicht, Ordner wird automatisch dan_zh-tram-flow
+python generator.py --slug zh-tram-flow --path "." --type DAN
 
 # DSC-Projekt mit optionalem lesbarem Namen für Docs
-python generator.py --slug dsc_house-price \
+python generator.py --slug house-price \
                     --name "House Price Prediction" \
                     --path "../projects" \
                     --type DSC
 
-# Kürzerer Slug, langer Name in Docs
+# Ergebnis: Ordner dsc_house-price, Paket house_price, Kernel "Python (house_price)"
 python generator.py --slug zomato --name "Zomato Market Analysis" \
                     --path "." --type DAN
 ```
