@@ -27,6 +27,7 @@ Der Generator legt mit einem einzigen Befehl ein komplettes Datenprojekt an:
 - **YAML-Konfigurationen** (nur DSC)
 - **Test-Dateien** (pytest)
 - **README.md** im neuen Projekt
+- **PROCESS_LOG.md**, **ROADMAP.md**, **CLAUDE.md** — Projektdokumentation und AI-Kontext
 - **pyproject.toml**, **.gitignore**, **Makefile**
 
 ---
@@ -137,19 +138,22 @@ Pflichtargumente:
   --type, -t    DSC oder DAN
 
 Optionale Argumente:
-  --slug, -s    Python-Bezeichner (nur a-z, 0-9, _). Automatisch aus --name abgeleitet.
+  --slug, -s    Technischer Bezeichner (a-z, 0-9, _, -). Automatisch aus --name abgeleitet.
   --help, -h    Diese Hilfe anzeigen
 ```
 
 ### Was ist der Slug?
 
-Der Slug ist der technische Name des Python-Pakets:
-- Ordnername in `src/<slug>/`
+Der Slug ist der technische Name des Projekts — er wird als **Ordnername** verwendet:
+- Projektordner: `<slug>/`
+- Python-Paket in `src/<slug>/`
 - Import-Name in Notebooks: `from <slug>.notebook import *`
 
-**Regeln:** Nur Kleinbuchstaben, Ziffern und Unterstriche. Kein Leerzeichen. Darf nicht mit Ziffer beginnen.
+**Regeln:** Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Darf nicht mit Ziffer beginnen.
 
 **Automatische Ableitung:** Aus `"NY Taxi Routes 2024!"` wird `ny_taxi_routes_2024`.
+
+**Empfehlung:** Slug explizit angeben wenn das Naming-Schema Bindestriche verwendet (z.B. `dansc_zh-tram-flow`).
 
 ---
 
@@ -309,7 +313,7 @@ wgnd-scaffolding/
     ├── __init__.py
     ├── notebook_helper.py    # Erstellt gültiges .ipynb-JSON
     ├── structure.py          # Alle Ordner die erstellt werden
-    ├── root_files.py         # pyproject.toml, .gitignore, Makefile
+    ├── root_files.py         # pyproject.toml, .gitignore, Makefile, PROCESS_LOG, ROADMAP, CLAUDE
     ├── notebooks_dsc.py      # DSC-Notebook-Definitionen
     ├── notebooks_dan.py      # DAN-Notebook-Definitionen
     ├── src_files.py          # Python-Quelldateien
