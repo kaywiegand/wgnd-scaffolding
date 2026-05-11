@@ -16,13 +16,14 @@ Die README enthält:
 from datetime import datetime
 
 
-def get_readme(project_name: str, project_slug: str, project_type: str) -> str:
+def get_readme(project_name: str, project_slug: str, project_type: str, package_name: str = "") -> str:
+    pkg = package_name or project_slug.replace("-", "_")
     if project_type.upper() == "DAN":
-        return _readme_dan(project_name, project_slug)
-    return _readme_dsc(project_name, project_slug)
+        return _readme_dan(project_name, project_slug, pkg)
+    return _readme_dsc(project_name, project_slug, pkg)
 
 
-def _readme_dan(project_name: str, project_slug: str) -> str:
+def _readme_dan(project_name: str, project_slug: str, package_name: str) -> str:
     from datetime import datetime
     today = datetime.today().strftime("%Y-%m-%d")
     return f"""\
@@ -34,51 +35,29 @@ def _readme_dan(project_name: str, project_slug: str) -> str:
 
 ## Schnellstart
 
-### 1. Repository klonen / Ordner oeffnen
-
-```bash
-# In VS Code: Datei -> Ordner oeffnen -> diesen Projektordner waehlen
-```
-
-### 2. uv installieren (einmalig, falls noch nicht vorhanden)
-
-```bash
-pip install uv
-```
-
-### 3. Virtuelle Umgebung erstellen
+### 1. Virtuelle Umgebung erstellen & aktivieren
 
 ```bash
 uv venv
+source .venv/bin/activate   # Mac/Linux
+.venv\\Scripts\\activate      # Windows
 ```
 
-### 4. Umgebung aktivieren
-
-```bash
-# Windows:
-.venv\\Scripts\\activate
-
-# Mac / Linux:
-source .venv/bin/activate
-```
-
-### 5. Dependencies + Projektpaket installieren
+### 2. Dependencies + Projektpaket installieren
 
 ```bash
 uv pip install -e ".[dan]"
 ```
 
-> Das `-e` steht fuer "editable" - dein `src/{project_slug}/` Paket wird direkt aus dem
-> Quellcode importiert. Die eckigen Klammern `[dan]` installieren die DAN-Zusatzpakete
-> aus `pyproject.toml`.
-
-### 6. Jupyter Kernel registrieren
+### 3. Jupyter Kernel registrieren
 
 ```bash
-python -m ipykernel install --user --name {project_slug} --display-name "Python ({project_slug})"
+python -m ipykernel install --user --name {package_name} --display-name "Python ({package_name})"
 ```
 
-### 7. Los geht\'s!
+Oder einfach: `make setup && make kernel`
+
+### 4. Los geht\'s!
 
 Oeffne `notebooks/00_introduction.ipynb` und fange an.
 
@@ -87,68 +66,64 @@ Oeffne `notebooks/00_introduction.ipynb` und fange an.
 ## Projektstruktur
 
 ```
-{project_name}/
+{project_slug}/
 |
-+-- pyproject.toml          # Paketkonfiguration & Dependencies
-+-- .gitignore
-+-- .python-version         # Python-Version fuer uv (3.10)
++-- PROCESS_LOG.md          # Projektverlauf & AI-Kontext-Einstieg
++-- ROADMAP.md              # Phasen & offene Tasks
++-- CLAUDE.md               # Claude Code Anweisungen
 +-- README.md
++-- pyproject.toml          # Paketkonfiguration & Dependencies
++-- Makefile                # Shortcuts (make setup, make kernel, ...)
++-- .gitignore
 |
 +-- data/                   # NICHT in Git! (.gitignore)
 |   +-- raw/                # Rohdaten - NIEMALS veraendern!
-|   +-- interim/            # Zwischenstands (gefiltert, teilbereinigt)
+|   +-- interim/            # Zwischenergebnisse
 |   +-- processed/          # Finale, analysefertige Daten
 |
 +-- notebooks/
 |   +-- 00_introduction.ipynb
 |   +-- 01_exploration.ipynb
-|   +-- 02_preprocessing.ipynb
-|   +-- 03_advanced_analytics.ipynb
-|   +-- 04_business_report.ipynb
-|   +-- project_decision_log.md
+|   +-- 02_preparation.ipynb
+|   +-- 03_analysis.ipynb
+|   +-- 04_insights.ipynb
 |
-+-- src/
-|   +-- {project_slug}/     # Das Python-Paket
-|       +-- __init__.py
-|       +-- config.py       # Zentrale Pfade & Konstanten
-|       +-- settings.py     # Plot-Theme, Farben, Logging
-|       +-- utils.py        # Hilfsfunktionen
-|       +-- data/
-|       +-- features/
-|       +-- visualization/
-|       +-- analytics/
++-- src/{package_name}/     # Python-Paket (importierbar nach uv install)
+|   +-- config.py           # Zentrale Pfade & Konstanten
+|   +-- settings.py         # Plot-Theme, Logging
+|   +-- notebook.py         # Zentraler Import-Einstieg fuer Notebooks
+|   +-- utils.py            # Hilfsfunktionen
+|   +-- data/
+|   +-- features/
+|   +-- visualization/
+|   +-- analytics/
 |
 +-- tests/
-|   +-- test_data.py
-|   +-- test_features.py
-|
 +-- reports/
-    +-- figures/            # Exportierte Plots
-    +-- tables/             # Exportierte Tabellen
-    +-- index.html          # Executive Summary HTML
+    +-- figures/
+    +-- tables/
+    +-- index.html
 ```
 
 ---
 
 ## Konfiguration
 
-### Pfade (`src/{project_slug}/config.py`)
+### Pfade (`src/{package_name}/config.py`)
 
 ```python
-from {project_slug}.config import PATHS
+from {package_name}.config import PATHS
 
 PATHS["raw"]       # data/raw/
 PATHS["processed"] # data/processed/
 PATHS["figures"]   # reports/figures/
 ```
 
-### Plotting einrichten
+### Notebook-Einstieg
 
 ```python
-from {project_slug}.settings import setup_plotting, logger
-
+from {package_name}.notebook import *
 setup_plotting()
-logger.info("Notebook gestartet")
 ```
 
 ---
@@ -157,19 +132,18 @@ logger.info("Notebook gestartet")
 
 ```bash
 pytest
-pytest --cov=src/{project_slug} --cov-report=term-missing
+pytest --cov=src/{package_name} --cov-report=term-missing
 ```
 
 ---
 
-_Generiert mit dem DAN/DSC Scaffolding Generator._
+_Generiert mit dem wgnd-scaffolding Generator._
 """
 
 
 # ─── DSC README (kept for DSC type) ───────────────────────────────────────────
 
-def _readme_dsc(project_name: str, project_slug: str) -> str:
-    """DSC README - original volle Version."""
+def _readme_dsc(project_name: str, project_slug: str, package_name: str) -> str:
     from datetime import datetime
     today = datetime.today().strftime("%Y-%m-%d")
     return f"""\
@@ -186,7 +160,7 @@ def _readme_dsc(project_name: str, project_slug: str) -> str:
 ```bash
 uv venv
 source .venv/bin/activate   # Mac/Linux
-.venv\\Scripts\\activate  # Windows
+.venv\\Scripts\\activate      # Windows
 ```
 
 ### 2. Dependencies installieren
@@ -198,35 +172,47 @@ uv pip install -e ".[dsc]"
 ### 3. Kernel registrieren
 
 ```bash
-python -m ipykernel install --user --name {project_slug} --display-name "Python ({project_slug})"
+python -m ipykernel install --user --name {package_name} --display-name "Python ({package_name})"
 ```
+
+Oder einfach: `make setup && make kernel`
 
 ---
 
 ## Projektstruktur
 
 ```
-{project_name}/
-+-- pyproject.toml
-+-- .gitignore
-+-- .python-version
+{project_slug}/
++-- PROCESS_LOG.md          # Projektverlauf & AI-Kontext-Einstieg
++-- ROADMAP.md              # Phasen & offene Tasks
++-- CLAUDE.md               # Claude Code Anweisungen
 +-- README.md
++-- pyproject.toml
++-- Makefile
++-- .gitignore
 +-- data/raw/  interim/  processed/
 +-- notebooks/
 |   +-- 00_introduction.ipynb
 |   +-- 01_exploration.ipynb
-|   +-- 02_preprocessing.ipynb
-|   +-- 03_modeling.ipynb
-|   +-- 04_evaluation.ipynb
-|   +-- 05_reporting.ipynb
-+-- src/{project_slug}/
-|   +-- config.py  settings.py  utils.py
+|   +-- 02_preparation.ipynb
+|   +-- 03_analysis.ipynb
+|   +-- 04_insights.ipynb
++-- src/{package_name}/
+|   +-- config.py  settings.py  notebook.py  utils.py
 |   +-- data/  features/  modeling/  evaluation/  visualization/
 +-- tests/
 +-- configs/  default.yaml  data.yaml  model.yaml
 +-- models/{today}/
 +-- reports/  figures/  tables/  index.html
-+-- docs/  project_decision_log.md
+```
+
+---
+
+## Notebook-Einstieg
+
+```python
+from {package_name}.notebook import *
+setup_plotting()
 ```
 
 ---
@@ -235,7 +221,7 @@ python -m ipykernel install --user --name {project_slug} --display-name "Python 
 
 ---
 
-_Generiert mit dem DAN/DSC Scaffolding Generator._
+_Generiert mit dem wgnd-scaffolding Generator._
 """
 
 

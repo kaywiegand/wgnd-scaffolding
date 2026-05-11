@@ -232,7 +232,7 @@ def main() -> None:
     # ── 3. README.md ──────────────────────────────────────────────────────
     head("3/5  README.md")
     try:
-        readme_content = get_readme(project_name, project_slug, project_type)
+        readme_content = get_readme(project_name, project_slug, project_type, package_name)
         write_file(project_dir, "README.md", readme_content)
     except Exception as e:
         errors.append(f"README.md: {e}")
