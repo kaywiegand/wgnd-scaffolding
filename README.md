@@ -76,10 +76,10 @@ python generator.py --name "Mein Projekt" --path "." --type DAN
 
 | Argument | Bedeutung | Beispiel |
 |----------|-----------|---------|
-| `--name` | Projektname (darf Leerzeichen enthalten) | `"NY Taxi Routes"` |
+| `--slug` | **Pflicht** — Ordnername und Paketname überall | `"dansc_zh-tram-flow"` |
 | `--path` | Wo soll der Projektordner erstellt werden? | `"."` = aktueller Ordner |
 | `--type` | Projekttyp | `DAN` oder `DSC` |
-| `--slug` | [optional] Technischer Name (wird auto-generiert) | `"ny_taxi_routes"` |
+| `--name` | [optional] Lesbarer Name nur für Docs/README | `"Zürich Tram Flow"` |
 
 ### Schritt 4: Neues Projekt in VS Code öffnen
 
@@ -130,15 +130,15 @@ DATA_FILENAME = "meine_datei.csv"
 ## Argumente
 
 ```
-usage: generator.py [-h] --name NAME [--slug SLUG] --path PATH --type {DSC,DAN}
+usage: generator.py [-h] --slug SLUG [--name NAME] --path PATH --type {DSC,DAN}
 
 Pflichtargumente:
-  --name, -n    Projektname (kann Leerzeichen enthalten)
+  --slug, -s    Technischer Bezeichner — Ordnername, Paketname, überall (a-z, 0-9, _, -)
   --path, -p    Übergeordnetes Verzeichnis für das neue Projekt
   --type, -t    DSC oder DAN
 
 Optionale Argumente:
-  --slug, -s    Technischer Bezeichner (a-z, 0-9, _, -). Automatisch aus --name abgeleitet.
+  --name, -n    Lesbarer Projektname für Docs und README. Fällt auf --slug zurück.
   --help, -h    Diese Hilfe anzeigen
 ```
 
@@ -160,19 +160,18 @@ Der Slug ist der technische Name des Projekts — er wird als **Ordnername** ver
 ## Beispiele
 
 ```bash
-# DAN-Projekt im aktuellen Ordner
-python generator.py --name "NY Taxi Routes" --path "." --type DAN
+# DAN-Projekt — Slug reicht, Name wird aus Slug übernommen
+python generator.py --slug dansc_zh-tram-flow --path "." --type DAN
 
-# DSC-Projekt in einem bestimmten Verzeichnis
-python generator.py --name "House Price Prediction" \
+# DSC-Projekt mit optionalem lesbarem Namen für Docs
+python generator.py --slug dsc_house-price \
+                    --name "House Price Prediction" \
                     --path "../projects" \
                     --type DSC
 
-# Mit eigenem Slug (kürzer halten)
-python generator.py --name "Zomato Market Analysis" \
-                    --slug "zomato" \
-                    --path "." \
-                    --type DAN
+# Kürzerer Slug, langer Name in Docs
+python generator.py --slug zomato --name "Zomato Market Analysis" \
+                    --path "." --type DAN
 ```
 
 ---

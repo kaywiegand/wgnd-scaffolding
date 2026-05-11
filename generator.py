@@ -117,20 +117,21 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Beispiele:\n"
-            "  python generator.py --name \"House Price\" --path . --type DSC\n"
-            "  python generator.py --name \"Market Analysis\" --path ./projects --type DAN\n"
+            "  python generator.py --slug dansc_zh-tram-flow --path . --type DAN\n"
+            "  python generator.py --slug dsc_house-price --name \"House Price Prediction\" --path ../projects --type DSC\n"
         ),
     )
     parser.add_argument(
-        "--name", "-n",
+        "--slug", "-s",
         required=True,
-        help="Projektname (z.B. 'Restaurant Analysis 2024')",
+        help="Technischer Projektbezeichner — wird Ordnername und Paketname (z.B. 'dansc_zh-tram-flow'). "
+             "Erlaubt: Kleinbuchstaben, Ziffern, Unterstriche, Bindestriche.",
     )
     parser.add_argument(
-        "--slug", "-s",
+        "--name", "-n",
         default=None,
-        help="[optional] Python-Bezeichner für das Paket (z.B. 'restaurant_analysis'). "
-             "Wird automatisch aus --name abgeleitet, wenn nicht angegeben.",
+        help="[optional] Lesbarer Projektname für Docs und README (z.B. 'Zürich Tram Flow'). "
+             "Fällt auf --slug zurück wenn nicht angegeben.",
     )
     parser.add_argument(
         "--path", "-p",
@@ -152,9 +153,9 @@ def main() -> None:
     parser = build_parser()
     args   = parser.parse_args()
 
-    project_name = args.name.strip()
+    project_slug = args.slug.strip()
+    project_name = args.name.strip() if args.name else project_slug
     project_type = args.type.upper()
-    project_slug = args.slug.strip() if args.slug else slugify(project_name)
     parent_dir   = Path(args.path).expanduser().resolve()
 
     # Slug validieren — Bindestriche erlaubt (z.B. dansc_zh-tram-flow)
