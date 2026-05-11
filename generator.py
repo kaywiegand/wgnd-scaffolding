@@ -166,8 +166,8 @@ def main() -> None:
 
     # package_name: Python-importierbarer Name (Bindestriche → Unterstriche)
     package_name = project_slug.replace("-", "_")
-    # folder_name: Projektordner = type_slug (z.B. dan_zh-tram-flow)
-    folder_name  = f"{project_type.lower()}_{project_slug}"
+    # folder_name: Projektordner = slug (kein Typ-Prefix)
+    folder_name  = project_slug
     project_dir  = parent_dir / folder_name
 
     # ── Header ausgeben ────────────────────────────────────────────────────
