@@ -31,8 +31,8 @@ def get_folders(package_name: str, project_type: str) -> list[str]:
             f"src/{package_name}/visualization",
             f"src/{package_name}/analytics",
             "tests",
-            "reports/figures",
-            "reports/tables",
+            "reports/img",
+            "reports/mds",
         ]
 
     # DSC: volle Struktur
@@ -49,8 +49,8 @@ def get_folders(package_name: str, project_type: str) -> list[str]:
         "tests",
         "configs",
         f"models/{today}",
-        "reports/figures",
-        "reports/tables",
+        "reports/img",
+        "reports/mds",
         "docs",
     ]
 
@@ -60,6 +60,6 @@ ALWAYS_EMPTY_DIRS = [
     "data/raw",
     "data/interim",
     "data/processed",
-    "reports/figures",
-    "reports/tables",
+    "reports/img",
+    "reports/mds",
 ]

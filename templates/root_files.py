@@ -158,8 +158,8 @@ Thumbs.db
 *.swo
 
 # ── Reports (optional – kommentiere aus, wenn du Reports tracken willst) ───
-# reports/figures/
-# reports/tables/
+# reports/img/
+# reports/mds/
 """
 
 

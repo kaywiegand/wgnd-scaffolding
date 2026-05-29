@@ -100,9 +100,9 @@ Oeffne `notebooks/00_introduction.ipynb` und fange an.
 |
 +-- tests/
 +-- reports/
-    +-- figures/
-    +-- tables/
     +-- index.html
+    +-- img/
+    +-- mds/
 ```
 
 ---
@@ -116,7 +116,7 @@ from {package_name}.config import PATHS
 
 PATHS["raw"]       # data/raw/
 PATHS["processed"] # data/processed/
-PATHS["figures"]   # reports/figures/
+PATHS["figures"]   # reports/img/
 ```
 
 ### Notebook-Einstieg
@@ -203,7 +203,7 @@ Oder einfach: `make setup && make kernel`
 +-- tests/
 +-- configs/  default.yaml  data.yaml  model.yaml
 +-- models/{today}/
-+-- reports/  figures/  tables/  index.html
++-- reports/  index.html  img/  mds/
 ```
 
 ---

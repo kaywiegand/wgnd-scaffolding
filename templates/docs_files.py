@@ -48,7 +48,7 @@ def _report_index(project_name: str) -> str:
     <div class="placeholder">Platzhalter – konkrete nächste Schritte.</div>
 
     <h2>🖼️ Visualisierungen</h2>
-    <div class="placeholder">Platzhalter – Plots aus reports/figures/ hier einbinden.</div>
+    <div class="placeholder">Platzhalter – Plots aus reports/img/ hier einbinden.</div>
 </body>
 </html>
 """
