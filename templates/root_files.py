@@ -157,9 +157,9 @@ Thumbs.db
 *.swp
 *.swo
 
-# ── Reports (optional – kommentiere aus, wenn du Reports tracken willst) ───
-# reports/img/
-# reports/mds/
+# ── Public (optional – kommentiere aus, wenn du Public-Artefakte tracken willst) ───
+# public/img/
+# public/md/
 """
 
 

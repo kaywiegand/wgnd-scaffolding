@@ -220,8 +220,9 @@ python generator.py --slug zomato --name "Zomato Market Analysis" \
 │   ├── raw/            ← Rohdaten (nicht in Git)
 │   ├── interim/        ← Zwischenergebnisse (nicht in Git)
 │   └── processed/      ← Finale Daten (nicht in Git)
-├── reports/
-│   ├── figures/        ← Exportierte Plots
+├── public/
+│   ├── img/            ← Exportierte Plots (PNG)
+│   ├── md/             ← Exportierte Markdown-Docs
 │   └── index.html      ← Executive Summary Template
 └── tests/
 ```

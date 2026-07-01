@@ -18,6 +18,34 @@
 
 ## Verlauf
 
+### 2026-07-01 — Web-Root reports/ → public/, mds/ → md/
+
+**Kontext:** `reports/` als Web-Root ist veraltet — Kay nutzt in neuen Projekten
+`public/` als Konvention für öffentliche Artefakte. Zusätzlich Drift korrigiert:
+Unterordner hieß im Generator `mds/` (Plural), in der Praxis wird `md/` (Singular)
+verwendet.
+
+**8 Template-Files + README aktualisiert:**
+
+| Datei | Änderung |
+|:---|:---|
+| `structure.py` | `reports/img` → `public/img` · `reports/mds` → `public/md` (DAN, DSC, `ALWAYS_EMPTY_DIRS`) |
+| `src_files.py` | `PATHS["reports"]` → `PATHS["public"]` (`_SRC / "public"`), `PATHS["figures"]` → `_SRC / "public" / "img"` |
+| `docs_files.py` | `reports/index.html` → `public/index.html`, Platzhalter-Texte auf `public/` |
+| `root_files.py` | `.gitignore`-Kommentar → `public/img/` + `public/md/` |
+| `notebooks_dan.py` | `FIGURES = Path('../public/img')` |
+| `notebooks_dsc.py` | Kommentar `reports/img/` → `public/img/` |
+| `readme_template.py` | Struktur-Diagramme (DAN + DSC) + PATHS-Beispiel → `public/`, `md/` |
+| `README.md` (Generator-Root) | Struktur-Diagramm korrigiert: `reports/figures/` → `public/img/` + `public/md/` |
+
+Bestehende Projekte (z.B. `zh-tram-flow`) werden NICHT migriert — nur der
+Generator für neue Projekte betroffen. `docs/portfolio/`-Framework-Docs im
+Workspace-Repo wurden parallel angepasst.
+
+**Nächster Schritt:** Backlog-Issues #2/#5/#3 (Slug-Fixes + MD-File-Generierung) — weiterhin offen.
+
+---
+
 ### 2026-05-29 — reports/-Struktur als Web-Projekt standardisiert
 
 **Kontext:** Aus der Arbeit an `zh-tram-flow` entstanden — `reports/` wurde dort von

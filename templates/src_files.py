@@ -94,8 +94,8 @@ PATHS = {{
     "interim":   _SRC / "data" / "interim",
     "processed": _SRC / "data" / "processed",
     "models":    _SRC / "models",
-    "reports":   _SRC / "reports",
-    "figures":   _SRC / "reports" / "img",
+    "public":    _SRC / "public",
+    "figures":   _SRC / "public" / "img",
     "configs":   _SRC / "configs",
 }}
 

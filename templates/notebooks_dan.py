@@ -207,7 +207,7 @@ def _nb_insights() -> str:
         ("code",
          "import matplotlib.pyplot as plt\n"
          "from pathlib import Path\n\n"
-         "FIGURES = Path(\'../reports/img\')\n"
+         "FIGURES = Path(\'../public/img\')\n"
          "FIGURES.mkdir(parents=True, exist_ok=True)\n\n"
          "# Platzhalter: finale Plots exportieren\n"
          "# fig.savefig(FIGURES / \'key_finding.png\', bbox_inches=\'tight\', dpi=150)"),

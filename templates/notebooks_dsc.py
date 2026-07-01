@@ -134,7 +134,7 @@ def _nb_reporting() -> str:
         ("markdown", "# 05 · Reporting & Storytelling"),
         ("markdown", "## 📋 Executive Summary\n\n> _3–5 Sätze: Was war das Problem, was haben wir getan, was ist das Ergebnis?_"),
         ("markdown", "## 📊 Key Visualizations\n\n> _Die wichtigsten Plots für die Präsentation._"),
-        ("code", "# Platzhalter: finale Plots, Exportieren nach reports/img/"),
+        ("code", "# Platzhalter: finale Plots, Exportieren nach public/img/"),
         ("markdown", "## 📝 Recommendations\n\n| Empfehlung | Priorität | Aufwand |\n|------------|-----------|--------|\n| _..._ | Hoch | _..._ |"),
         ("markdown", "## 🔭 Next Steps & Open Questions"),
     ]

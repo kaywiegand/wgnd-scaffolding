@@ -10,7 +10,7 @@ Dokumentations-Dateien:
 
 def get_files(project_name: str, project_type: str = "DSC") -> list[tuple[str, str]]:
     return [
-        ("reports/index.html", _report_index(project_name)),
+        ("public/index.html", _report_index(project_name)),
     ]
 
 
@@ -33,7 +33,7 @@ def _report_index(project_name: str) -> str:
 </head>
 <body>
     <h1>{project_name}</h1>
-    <p><em>Executive Summary Report – generiert aus reports/</em></p>
+    <p><em>Executive Summary Report – generiert aus public/</em></p>
 
     <h2>🎯 Problem Statement</h2>
     <div class="placeholder">Platzhalter – hier das Business-Problem beschreiben.</div>
@@ -48,7 +48,7 @@ def _report_index(project_name: str) -> str:
     <div class="placeholder">Platzhalter – konkrete nächste Schritte.</div>
 
     <h2>🖼️ Visualisierungen</h2>
-    <div class="placeholder">Platzhalter – Plots aus reports/img/ hier einbinden.</div>
+    <div class="placeholder">Platzhalter – Plots aus public/img/ hier einbinden.</div>
 </body>
 </html>
 """
