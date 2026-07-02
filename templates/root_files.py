@@ -24,6 +24,7 @@ def get_files(project_name: str, project_slug: str, project_type: str, package_n
         ("PROCESS_LOG.md",    _process_log(project_name)),
         ("ROADMAP.md",        _roadmap(project_name)),
         ("CLAUDE.md",         _claude_md(project_name, project_slug, project_type)),
+        ("BACKLOG.md",        _backlog(project_name)),
     ]
 
 
@@ -294,6 +295,22 @@ def _claude_md(project_name: str, project_slug: str, project_type: str) -> str:
 
 _Hier projektspezifische Overrides ergänzen, z.B. besondere Datenquellen,
 Naming-Konventionen oder Abhängigkeiten zu anderen Repos._
+"""
+
+
+def _backlog(project_name: str) -> str:
+    return f"""\
+# BACKLOG.md – {project_name}
+
+Projektspezifische offene Tasks und Todos.
+Nie mitten in einer Session den Kontext wechseln — hier notieren, gesammelt abarbeiten.
+
+Prio: `1` = hoch · `2` = mittel · `3` = niedrig
+
+---
+
+| # | Beschreibung | Prio | Entdeckt in |
+| :--- | :--- | :--- | :--- |
 """
 
 

@@ -26,6 +26,7 @@ Beispiele:
 
 import argparse
 import re
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -266,6 +267,25 @@ def main() -> None:
         except Exception as e:
             errors.append(f"Notebook '{rel_path}': {e}")
             err(f"Fehler bei '{rel_path}': {e}")
+
+    # ── Git-Repository ──────────────────────────────────────────────────────
+    head("Git-Repository")
+    if (project_dir / ".git").exists():
+        info("Bereits ein Git-Repository — kein init nötig.")
+    else:
+        try:
+            subprocess.run(["git", "init"], cwd=project_dir, check=True, capture_output=True)
+            subprocess.run(["git", "add", "."], cwd=project_dir, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-m", "chore: init project scaffold"],
+                cwd=project_dir, check=True, capture_output=True,
+            )
+            ok("git init + Erstcommit")
+        except FileNotFoundError:
+            warn("git nicht gefunden — Repository manuell initialisieren.")
+        except subprocess.CalledProcessError as e:
+            errors.append(f"git init: {e}")
+            err(f"Git-Init fehlgeschlagen: {e.stderr.decode(errors='replace') if e.stderr else e}")
 
     # ── Abschlussbericht ──────────────────────────────────────────────────
     sep()
