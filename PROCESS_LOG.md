@@ -10,9 +10,9 @@
 | Feld | Inhalt |
 | :--- | :--- |
 | Projektname | wgnd-scaffolding |
-| Zweck | Projektstruktur-Generator für DAN/DSC/DE Projekte |
+| Zweck | Projektstruktur-Generator für DA/DS/DE Projekte |
 | Status | 🟢 stabil, einsatzbereit |
-| Nächster Schritt | Backlog #7/#8 — neue Projekttypen DE und DANSC |
+| Nächster Schritt | Projekttyp-Codes auf DA/DS/DE vereinheitlicht (Backlog #7/#8 obsolet — DS = voller Zyklus) |
 
 ---
 
@@ -29,13 +29,13 @@ verwendet.
 
 | Datei | Änderung |
 |:---|:---|
-| `structure.py` | `reports/img` → `public/img` · `reports/mds` → `public/md` (DAN, DSC, `ALWAYS_EMPTY_DIRS`) |
+| `structure.py` | `reports/img` → `public/img` · `reports/mds` → `public/md` (DA, DS, `ALWAYS_EMPTY_DIRS`) |
 | `src_files.py` | `PATHS["reports"]` → `PATHS["public"]` (`_SRC / "public"`), `PATHS["figures"]` → `_SRC / "public" / "img"` |
 | `docs_files.py` | `reports/index.html` → `public/index.html`, Platzhalter-Texte auf `public/` |
 | `root_files.py` | `.gitignore`-Kommentar → `public/img/` + `public/md/` |
-| `notebooks_dan.py` | `FIGURES = Path('../public/img')` |
-| `notebooks_dsc.py` | Kommentar `reports/img/` → `public/img/` |
-| `readme_template.py` | Struktur-Diagramme (DAN + DSC) + PATHS-Beispiel → `public/`, `md/` |
+| `notebooks_da.py` | `FIGURES = Path('../public/img')` |
+| `notebooks_ds.py` | Kommentar `reports/img/` → `public/img/` |
+| `readme_template.py` | Struktur-Diagramme (DA + DS) + PATHS-Beispiel → `public/`, `md/` |
 | `README.md` (Generator-Root) | Struktur-Diagramm korrigiert: `reports/figures/` → `public/img/` + `public/md/` |
 
 Bestehende Projekte (z.B. `zh-tram-flow`) werden NICHT migriert — nur der
@@ -58,8 +58,8 @@ Workspace-Repo wurden parallel angepasst.
 |:---|:---|
 | `structure.py` | `reports/figures` → `reports/img` · `reports/tables` → `reports/mds` (3 Stellen) |
 | `src_files.py` | `PATHS["figures"]` Template → `reports/img` |
-| `notebooks_dan.py` | `FIGURES = Path('../reports/img')` |
-| `notebooks_dsc.py` | Kommentar `reports/figures/` → `reports/img/` |
+| `notebooks_da.py` | `FIGURES = Path('../reports/img')` |
+| `notebooks_ds.py` | Kommentar `reports/figures/` → `reports/img/` |
 | `docs_files.py` | Placeholder-Verweis `reports/figures/` → `reports/img/` |
 | `root_files.py` | `.gitignore`-Kommentar → `img/` + `mds/` |
 | `readme_template.py` | Struktur-Diagramm + PATHS-Beispiel (3 Stellen) |

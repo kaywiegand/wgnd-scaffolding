@@ -28,12 +28,12 @@ standardisierte Projektstruktur für Data-Projekte erstellt.
 
 **Einstiegspunkt:** `generator.py` — CLI-Orchestrator
 **Paketmanager:** `uv`
-**Projekttypen:** `DAN` (Data Analytics) · `DSC` (Data Science)
+**Projekttypen:** `DA` (Data Analysis) · `DS` (Data Science)
 
 ### Aktueller Aufruf
 
 ```bash
-python generator.py --name "NY Taxi Routes" --path "." --type DAN
+python generator.py --name "NY Taxi Routes" --path "." --type DA
 #                   ^^^^^ Pflicht           ^^^^^ Pflicht  ^^^^^ Pflicht
 #                   --slug optional, wird automatisch aus name abgeleitet
 ```
@@ -56,10 +56,10 @@ wgnd-scaffolding/
     ├── notebook_helper.py    ← Erstellt gültiges .ipynb-JSON
     ├── structure.py          ← Ordner-Liste
     ├── root_files.py         ← pyproject.toml, .gitignore, Makefile
-    ├── notebooks_dan.py      ← DAN-Notebook-Definitionen
-    ├── notebooks_dsc.py      ← DSC-Notebook-Definitionen
+    ├── notebooks_da.py       ← DA-Notebook-Definitionen
+    ├── notebooks_ds.py       ← DS-Notebook-Definitionen
     ├── src_files.py          ← Python-Quelldateien
-    ├── config_files.py       ← YAML-Konfigurationen (nur DSC)
+    ├── config_files.py       ← YAML-Konfigurationen (nur DS)
     ├── test_files.py         ← pytest Test-Dateien
     ├── docs_files.py         ← Docs & HTML-Report
     └── readme_template.py    ← README.md des generierten Projekts
@@ -73,11 +73,11 @@ Kurzreferenz — Wahrheit und Details immer im `../BACKLOG.md`:
 
 | # | Issue | Prio | Datei |
 | :--- | :--- | :--- | :--- |
-| 2 | Bindestriche im Slug erlauben (`dansc_zh-tram-flow`) | H | `generator.py` |
+| 2 | Bindestriche im Slug erlauben (`zh-tram-flow`) | H | `generator.py` |
 | 5 | Slug = Pflichtfeld + Ordnername · Name = optional | H | `generator.py` |
 | 3 | MD-Files beim Setup erstellen: `ROADMAP.md`, `PROCESS_LOG.md`, `CLAUDE.md` | H | `templates/root_files.py` oder neues `templates/docs_files.py` |
 | 4 | `projekt_decision.md` aus Template entfernen | M | `templates/` durchsuchen |
-| 1 | Neue Projekttyp-Variante: DE + DAN + DSC Mischform | M | spätere Session |
+| 1 | ~~Neue Projekttyp-Variante: DE + DA + DS Mischform~~ → ✅ obsolet: DS = voller Zyklus (siehe `../docs/CONVENTIONS.md`) | — | erledigt 2026-07-03 |
 
 **Reihenfolge heute:** #2 → #5 → #3 → #4 · Issue #1 ist für spätere Session.
 
@@ -87,17 +87,17 @@ Kurzreferenz — Wahrheit und Details immer im `../BACKLOG.md`:
 
 ```bash
 # Neuer Aufruf:
-python generator.py --slug dansc_zh-tram-flow --type DAN --name "Zürich Tram Flow"
+python generator.py --slug zh-tram-flow --type DA --name "Zürich Tram Flow"
 #                   ^^^^^ Pflicht             ^^^^^ Pflicht  ^^^^^ Optional
 
 # Ergebnis:
-dansc_zh-tram-flow/           ← Ordner nach Slug benannt (nicht nach Name)
+zh-tram-flow/           ← Ordner nach Slug benannt (nicht nach Name)
 ├── CLAUDE.md                 ← neu: automatisch mit Verweis auf ../CLAUDE.md
 ├── PROCESS_LOG.md            ← neu: Template mit Grundstruktur
 ├── ROADMAP.md                ← neu: Template mit Grundstruktur
 ├── README.md                 ← wie bisher
 ├── notebooks/
-├── src/dansc_zh-tram-flow/   ← slug auch hier
+├── src/zh-tram-flow/   ← slug auch hier
 └── ...
 ```
 

@@ -2,26 +2,26 @@
 """
 generator.py
 ============
-DAN / DSC Project Scaffolding Generator
+DA / DS Project Scaffolding Generator
 
 Verwendung:
-    python generator.py --name "Mein Projekt" --path "C:/Projects" --type DSC
-    python generator.py --name "Restaurant Analysis" --path "./projects" --type DAN
+    python generator.py --name "Mein Projekt" --path "C:/Projects" --type DS
+    python generator.py --name "Restaurant Analysis" --path "./projects" --type DA
 
 Argumente:
     --name      Projektname (z.B. "Restaurant Analysis Q3 2024")
     --slug      [optional] URL-sicherer Bezeichner (z.B. "restaurant_analysis")
                 Wenn weggelassen, wird automatisch aus --name abgeleitet.
     --path      Übergeordnetes Verzeichnis, IN dem das Projekt erstellt wird
-    --type      Projekttyp: DSC (Data Science) oder DAN (Data Analytics)
+    --type      Projekttyp: DS (Data Science) oder DA (Data Analysis)
 
 Beispiele:
-    # DSC-Projekt im aktuellen Verzeichnis
-    python generator.py --name "House Price Prediction" --path "." --type DSC
+    # DS-Projekt im aktuellen Verzeichnis
+    python generator.py --name "House Price Prediction" --path "." --type DS
 
-    # DAN-Projekt in einem bestimmten Ordner, mit eigenem Slug
+    # DA-Projekt in einem bestimmten Ordner, mit eigenem Slug
     python generator.py --name "Market Analysis 2024" --slug "market_2024" \\
-                        --path "C:/Users/dein_name/Projects" --type DAN
+                        --path "C:/Users/dein_name/Projects" --type DA
 """
 
 import argparse
@@ -39,8 +39,8 @@ from templates.config_files   import get_files as get_config_files
 from templates.test_files     import get_files as get_test_files
 from templates.docs_files     import get_files as get_docs_files
 from templates.readme_template import get_readme
-from templates.notebooks_dsc  import get_notebooks as get_notebooks_dsc
-from templates.notebooks_dan  import get_notebooks as get_notebooks_dan
+from templates.notebooks_ds   import get_notebooks as get_notebooks_ds
+from templates.notebooks_da   import get_notebooks as get_notebooks_da
 
 
 # ─── Farb-Codes für die Konsolen-Ausgabe ───────────────────────────────────
@@ -83,8 +83,8 @@ def dir_name_from(name: str) -> str:
     Erstellt einen filesystem-sicheren Ordnernamen aus dem Projektnamen.
     Behaelt Gross/Kleinschreibung und Bindestriche - ersetzt nur OS-ungueltiges.
 
-    Beispiel: "DAN Telefonica Churn"  -> "DAN_Telefonica_Churn"
-              "DAN_Telefonica-Churn"  -> "DAN_Telefonica-Churn"
+    Beispiel: "DA Telefonica Churn"   -> "DA_Telefonica_Churn"
+              "DA_Telefonica-Churn"   -> "DA_Telefonica-Churn"
     """
     safe = name.strip()
     import re as _re
@@ -112,20 +112,20 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="generator.py",
         description=(
-            "DAN / DSC Project Scaffolding Generator\n"
-            "Erstellt eine vollständige Projektstruktur für Data Science / Analytics."
+            "DA / DS Project Scaffolding Generator\n"
+            "Erstellt eine vollständige Projektstruktur für Data Science / Analysis."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Beispiele:\n"
-            "  python generator.py --slug dansc_zh-tram-flow --path . --type DAN\n"
-            "  python generator.py --slug dsc_house-price --name \"House Price Prediction\" --path ../projects --type DSC\n"
+            "  python generator.py --slug zh-tram-flow --path . --type DA\n"
+            "  python generator.py --slug house-price --name \"House Price Prediction\" --path ../projects --type DS\n"
         ),
     )
     parser.add_argument(
         "--slug", "-s",
         required=True,
-        help="Technischer Projektbezeichner — wird Ordnername und Paketname (z.B. 'dansc_zh-tram-flow'). "
+        help="Technischer Projektbezeichner — wird Ordnername und Paketname (z.B. 'zh-tram-flow'). "
              "Erlaubt: Kleinbuchstaben, Ziffern, Unterstriche, Bindestriche.",
     )
     parser.add_argument(
@@ -142,8 +142,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--type", "-t",
         required=True,
-        choices=["DSC", "DAN", "dsc", "dan"],
-        help="Projekttyp: DSC (Data Science) oder DAN (Data Analytics)",
+        choices=["DS", "DA", "ds", "da"],
+        help="Projekttyp: DS (Data Science) oder DA (Data Analysis)",
     )
     return parser
 
@@ -172,7 +172,7 @@ def main() -> None:
     project_dir  = parent_dir / folder_name
 
     # ── Header ausgeben ────────────────────────────────────────────────────
-    head("DAN/DSC Scaffolding Generator")
+    head("DA/DS Scaffolding Generator")
     sep()
     info(f"Projektname : {project_name}")
     info(f"Slug        : {project_slug}")
@@ -256,10 +256,10 @@ def main() -> None:
 
     # ── 5. Notebooks ──────────────────────────────────────────────────────
     head("5/5  Notebooks")
-    if project_type == "DSC":
-        notebooks = get_notebooks_dsc(project_name, project_slug)
+    if project_type == "DS":
+        notebooks = get_notebooks_ds(project_name, project_slug)
     else:
-        notebooks = get_notebooks_dan(project_name, project_slug)
+        notebooks = get_notebooks_da(project_name, project_slug)
 
     for rel_path, content in notebooks:
         try:

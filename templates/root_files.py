@@ -10,7 +10,7 @@ Paket-Management: uv + venv
   uv liest pyproject.toml direkt – keine requirements.txt oder environment.yml nötig.
 
 📝 ANPASSEN: Füge Pakete unter [project] dependencies oder [project.optional-dependencies]
-              in pyproject.toml hinzu. Danach: uv pip install -e ".[dsc]" erneut ausführen.
+              in pyproject.toml hinzu. Danach: uv pip install -e ".[ds]" erneut ausführen.
 """
 
 
@@ -72,12 +72,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dsc = [
+ds = [
   "xgboost>=2.0",
   "shap>=0.43",
   "optuna>=3.0",
 ]
-dan = [
+da = [
   "plotly>=5.0",
   "folium>=0.15",
 ]
@@ -316,7 +316,7 @@ Prio: `1` = hoch · `2` = mittel · `3` = niedrig
 
 def _environment_yml_UNUSED(project_slug: str, project_type: str) -> str:  # kept for reference
     extras = ""
-    if project_type.upper() == "DSC":
+    if project_type.upper() == "DS":
         extras = """\
   - xgboost>=2.0
   - shap>=0.43
@@ -384,16 +384,16 @@ dependencies:
 
 def _requirements_txt_UNUSED(project_type: str) -> str:  # kept for reference
     extras = ""
-    if project_type.upper() == "DSC":
+    if project_type.upper() == "DS":
         extras = """\
-# DSC-spezifisch
+# DS-spezifisch
 xgboost>=2.0
 shap>=0.43
 optuna>=3.0
 """
     else:
         extras = """\
-# DAN-spezifisch
+# DA-spezifisch
 plotly>=5.0
 folium>=0.15
 """

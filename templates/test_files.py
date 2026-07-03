@@ -13,7 +13,7 @@ def get_files(project_slug: str, project_type: str) -> list[tuple[str, str]]:
         ("tests/test_data.py", _test_data(project_slug)),
         ("tests/test_features.py", _test_features(project_slug)),
     ]
-    if project_type.upper() == "DSC":
+    if project_type.upper() == "DS":
         files.append(("tests/test_modeling.py", _test_modeling(project_slug)))
     return files
 
@@ -85,7 +85,7 @@ def test_add_date_features_correct_values():
 
 def _test_modeling(project_slug: str) -> str:
     return f'''"""
-test_modeling.py  (DSC)
+test_modeling.py  (DS)
 -----------------------
 Tests für Modelltraining und Evaluation.
 """

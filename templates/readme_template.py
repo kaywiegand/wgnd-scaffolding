@@ -5,7 +5,7 @@ Generiert die README.md des neuen Projekts.
 
 Die README enthält:
   - Projektstruktur mit Erklärungen
-  - Workflow-Tabellen (DSC/DAN)
+  - Workflow-Tabellen (DS/DA)
   - Daten-Naming-Conventions
   - Setup-Anleitung
   - Wie man Notebooks ausführt
@@ -18,18 +18,18 @@ from datetime import datetime
 
 def get_readme(project_name: str, project_slug: str, project_type: str, package_name: str = "") -> str:
     pkg = package_name or project_slug.replace("-", "_")
-    if project_type.upper() == "DAN":
-        return _readme_dan(project_name, project_slug, pkg)
-    return _readme_dsc(project_name, project_slug, pkg)
+    if project_type.upper() == "DA":
+        return _readme_da(project_name, project_slug, pkg)
+    return _readme_ds(project_name, project_slug, pkg)
 
 
-def _readme_dan(project_name: str, project_slug: str, package_name: str) -> str:
+def _readme_da(project_name: str, project_slug: str, package_name: str) -> str:
     from datetime import datetime
     today = datetime.today().strftime("%Y-%m-%d")
     return f"""\
 # {project_name}
 
-> **Typ:** DAN &nbsp;|&nbsp; **Erstellt:** {today} &nbsp;|&nbsp; **Version:** 0.1.0
+> **Typ:** DA &nbsp;|&nbsp; **Erstellt:** {today} &nbsp;|&nbsp; **Version:** 0.1.0
 
 ---
 
@@ -46,7 +46,7 @@ source .venv/bin/activate   # Mac/Linux
 ### 2. Dependencies + Projektpaket installieren
 
 ```bash
-uv pip install -e ".[dan]"
+uv pip install -e ".[da]"
 ```
 
 ### 3. Jupyter Kernel registrieren
@@ -141,15 +141,15 @@ _Generiert mit dem wgnd-scaffolding Generator._
 """
 
 
-# ─── DSC README (kept for DSC type) ───────────────────────────────────────────
+# ─── DS README (kept for DS type) ─────────────────────────────────────────────
 
-def _readme_dsc(project_name: str, project_slug: str, package_name: str) -> str:
+def _readme_ds(project_name: str, project_slug: str, package_name: str) -> str:
     from datetime import datetime
     today = datetime.today().strftime("%Y-%m-%d")
     return f"""\
 # {project_name}
 
-> **Typ:** DSC &nbsp;|&nbsp; **Erstellt:** {today} &nbsp;|&nbsp; **Version:** 0.1.0
+> **Typ:** DS &nbsp;|&nbsp; **Erstellt:** {today} &nbsp;|&nbsp; **Version:** 0.1.0
 
 ---
 
@@ -166,7 +166,7 @@ source .venv/bin/activate   # Mac/Linux
 ### 2. Dependencies installieren
 
 ```bash
-uv pip install -e ".[dsc]"
+uv pip install -e ".[ds]"
 ```
 
 ### 3. Kernel registrieren
@@ -217,7 +217,7 @@ setup_plotting()
 
 ---
 
-{_workflow_section("DSC")}
+{_workflow_section("DS")}
 
 ---
 
@@ -226,9 +226,9 @@ _Generiert mit dem wgnd-scaffolding Generator._
 
 
 def _workflow_section(project_type: str) -> str:
-    if project_type.upper() == "DSC":
+    if project_type.upper() == "DS":
         return """\
-### DSC Workflow
+### DS Workflow
 
 | Schritt | 01 · Exploration | 02 · Preprocessing | 03 · Modeling | 04 · Evaluation |
 |---------|------------------|--------------------|---------------|-----------------|
@@ -245,7 +245,7 @@ def _workflow_section(project_type: str) -> str:
 bevor irgendeine Bereinigung stattfindet → verhindert Data Leakage!"""
     else:
         return """\
-### DAN Workflow
+### DA Workflow
 
 | Schritt | 01 · Exploration | 02 · Preprocessing | 03 · Advanced Analytics | 04 · Business Insights |
 |---------|------------------|--------------------|------------------------|------------------------|

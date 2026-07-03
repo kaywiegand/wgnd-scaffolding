@@ -8,7 +8,7 @@ Dokumentations-Dateien:
 """
 
 
-def get_files(project_name: str, project_type: str = "DSC") -> list[tuple[str, str]]:
+def get_files(project_name: str, project_type: str = "DS") -> list[tuple[str, str]]:
     return [
         ("public/index.html", _report_index(project_name)),
     ]

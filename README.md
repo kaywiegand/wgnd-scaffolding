@@ -1,7 +1,7 @@
 # wgnd Scaffolding Generator
 
 > Erstellt in Sekunden eine vollständige, standardisierte Projektstruktur
-> für Data Analytics (DAN) und Data Science (DSC) Projekte.
+> für Data Analysis (DA) und Data Science (DS) Projekte.
 
 ---
 
@@ -24,7 +24,7 @@ Der Generator legt mit einem einzigen Befehl ein komplettes Datenprojekt an:
 - **Ordnerstruktur** nach Cookiecutter Data Science Standard
 - **Jupyter Notebooks** mit vorbereiteten Markdown-Headings (Workflow-Struktur)
 - **Python-Quelldateien** mit Docstrings und Starter-Code (`config.py`, `settings.py`, `notebook.py`, `utils.py`)
-- **YAML-Konfigurationen** (nur DSC)
+- **YAML-Konfigurationen** (nur DS)
 - **Test-Dateien** (pytest)
 - **README.md** im neuen Projekt
 - **PROCESS_LOG.md**, **ROADMAP.md**, **CLAUDE.md** — Projektdokumentation und AI-Kontext
@@ -69,16 +69,16 @@ wgnd-scaffolding/
 ### Schritt 3: Generator ausführen
 
 ```bash
-python generator.py --name "Mein Projekt" --path "." --type DAN
+python generator.py --name "Mein Projekt" --path "." --type DA
 ```
 
 **Argumente:**
 
 | Argument | Bedeutung | Beispiel |
 |----------|-----------|---------|
-| `--slug` | **Pflicht** — Ordnername und Paketname überall | `"dansc_zh-tram-flow"` |
+| `--slug` | **Pflicht** — Ordnername und Paketname überall | `"zh-tram-flow"` |
 | `--path` | Wo soll der Projektordner erstellt werden? | `"."` = aktueller Ordner |
-| `--type` | Projekttyp | `DAN` oder `DSC` |
+| `--type` | Projekttyp | `DA` oder `DS` |
 | `--name` | [optional] Lesbarer Name nur für Docs/README | `"Zürich Tram Flow"` |
 
 ### Schritt 4: Neues Projekt in VS Code öffnen
@@ -95,9 +95,9 @@ uv venv                                    # .venv/ erstellen
 source .venv/bin/activate                  # Mac/Linux
 .venv\Scripts\activate                     # Windows
 
-uv pip install -e ".[dan]"                 # DAN-Projekt
+uv pip install -e ".[da]"                  # DA-Projekt
 # oder:
-uv pip install -e ".[dsc]"                 # DSC-Projekt
+uv pip install -e ".[ds]"                  # DS-Projekt
 
 python -m ipykernel install --user \
     --name <slug> \
@@ -130,12 +130,12 @@ DATA_FILENAME = "meine_datei.csv"
 ## Argumente
 
 ```
-usage: generator.py [-h] --slug SLUG [--name NAME] --path PATH --type {DSC,DAN}
+usage: generator.py [-h] --slug SLUG [--name NAME] --path PATH --type {DS,DA}
 
 Pflichtargumente:
   --slug, -s    Technischer Bezeichner — Ordnername, Paketname, überall (a-z, 0-9, _, -)
   --path, -p    Übergeordnetes Verzeichnis für das neue Projekt
-  --type, -t    DSC oder DAN
+  --type, -t    DS oder DA
 
 Optionale Argumente:
   --name, -n    Lesbarer Projektname für Docs und README. Fällt auf --slug zurück.
@@ -150,30 +150,30 @@ Der Generator leitet drei technische Namen aus deinen Eingaben ab:
 | :--- | :--- | :--- | :--- |
 | **Slug** | `--slug` (Pflicht) | `zh-tram-flow` | Eindeutiger Bezeichner, Git-Repo-Name |
 | **Paketname** | Slug, Bindestriche → Unterstriche | `zh_tram_flow` | `src/zh_tram_flow/`, Python-Imports |
-| **Ordnername** | `{type}_{slug}` | `dan_zh-tram-flow` | Projektordner auf dem Filesystem |
+| **Ordnername** | = Slug (kein Typ-Prefix) | `zh-tram-flow` | Projektordner auf dem Filesystem |
 | **Projektname** | `--name` (optional) | `Zürich Tram Flow` | README-Titel, Docs — fällt auf Slug zurück |
 
 **Slug-Regeln:** Kleinbuchstaben, Ziffern, Unterstriche und Bindestriche erlaubt. Darf nicht mit Ziffer beginnen. Kurz halten — nur das Thema, ohne Typ-Prefix.
 
-**Ordner umbenennen:** Den Projektordner (`dan_zh-tram-flow`) kannst du später manuell umbenennen, z.B. in `dansc_zh-tram-flow` wenn das Projekt Analytics und Science kombiniert.
+**Projekttyp kombiniert:** Ein Projekt mit Analysis- und Science-Anteil ist einfach Typ `DS` — `DS` deckt den vollen Zyklus (DE + DA + ML) ab. Kein separater Ordner-Suffix nötig.
 
 ---
 
 ## Beispiele
 
 ```bash
-# DAN-Projekt — Slug reicht, Ordner wird automatisch dan_zh-tram-flow
-python generator.py --slug zh-tram-flow --path "." --type DAN
+# DA-Projekt — Slug reicht, Ordner wird zh-tram-flow
+python generator.py --slug zh-tram-flow --path "." --type DA
 
-# DSC-Projekt mit optionalem lesbarem Namen für Docs
+# DS-Projekt mit optionalem lesbarem Namen für Docs
 python generator.py --slug house-price \
                     --name "House Price Prediction" \
                     --path "../projects" \
-                    --type DSC
+                    --type DS
 
-# Ergebnis: Ordner dsc_house-price, Paket house_price, Kernel "Python (house_price)"
+# Ergebnis: Ordner house-price, Paket house_price, Kernel "Python (house_price)"
 python generator.py --slug zomato --name "Zomato Market Analysis" \
-                    --path "." --type DAN
+                    --path "." --type DA
 ```
 
 ---
@@ -189,7 +189,7 @@ python generator.py --slug zomato --name "Zomato Market Analysis" \
 | `CLAUDE.md` | Projektspezifische Anweisungen für Claude Code — ergänzt die globale CLAUDE.md |
 | `README.md` | Projektbeschreibung für Menschen — GitHub-Startseite |
 
-### Ordnerstruktur (DAN)
+### Ordnerstruktur (DA)
 
 ```
 <slug>/
@@ -258,7 +258,7 @@ dependencies = [
 **wgnd-Toolkit updaten** (nach Push ins wgnd-toolkit):
 
 ```bash
-uv pip install -e ".[dan]" --refresh-package wgnd
+uv pip install -e ".[da]" --refresh-package wgnd
 # → Kernel neu starten
 ```
 
@@ -271,10 +271,10 @@ Der Generator ist **modular** aufgebaut — jede Datei in `templates/` ist für 
 ```
 templates/
 ├── structure.py        ← Ordner-Liste
-├── notebooks_dsc.py    ← DSC-Notebooks
-├── notebooks_dan.py    ← DAN-Notebooks
+├── notebooks_ds.py     ← DS-Notebooks
+├── notebooks_da.py     ← DA-Notebooks
 ├── src_files.py        ← Python-Quelldateien (config, settings, notebook, utils, ...)
-├── config_files.py     ← YAML-Konfigurationen (nur DSC)
+├── config_files.py     ← YAML-Konfigurationen (nur DS)
 ├── test_files.py       ← pytest Test-Dateien
 ├── root_files.py       ← pyproject.toml, .gitignore, Makefile
 ├── docs_files.py       ← Dokumentation
@@ -284,7 +284,7 @@ templates/
 
 ### Neues Notebook hinzufügen
 
-In `templates/notebooks_dan.py`:
+In `templates/notebooks_da.py`:
 
 ```python
 def get_notebooks(project_name, project_slug):
@@ -330,8 +330,8 @@ wgnd-scaffolding/
     ├── notebook_helper.py    # Erstellt gültiges .ipynb-JSON
     ├── structure.py          # Alle Ordner die erstellt werden
     ├── root_files.py         # pyproject.toml, .gitignore, Makefile, PROCESS_LOG, ROADMAP, CLAUDE
-    ├── notebooks_dsc.py      # DSC-Notebook-Definitionen
-    ├── notebooks_dan.py      # DAN-Notebook-Definitionen
+    ├── notebooks_ds.py       # DS-Notebook-Definitionen
+    ├── notebooks_da.py       # DA-Notebook-Definitionen
     ├── src_files.py          # Python-Quelldateien
     ├── config_files.py       # YAML-Konfigurationen
     ├── test_files.py         # pytest Test-Dateien
@@ -341,4 +341,4 @@ wgnd-scaffolding/
 
 ---
 
-_Entwickelt für DAN- und DSC-Projekte im Wiegand-Workflow._
+_Entwickelt für DA- und DS-Projekte im Wiegand-Workflow._

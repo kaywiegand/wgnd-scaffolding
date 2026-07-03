@@ -32,7 +32,7 @@ def get_files(project_name: str, package_name: str, project_type: str) -> list[t
         (f"{base_path}/visualization/plot_metrics.py", _plot_metrics_py()),
     ]
 
-    if project_type.upper() == "DSC":
+    if project_type.upper() == "DS":
         files += [
             (f"{base_path}/modeling/__init__.py", ""),
             (f"{base_path}/modeling/baseline.py", _baseline_py()),
@@ -41,8 +41,8 @@ def get_files(project_name: str, package_name: str, project_type: str) -> list[t
             (f"{base_path}/evaluation/evaluate_model.py", _evaluate_model_py()),
         ]
 
-    if project_type.upper() == "DAN":
-        # DAN: nur __init__.py in Unterordnern – keine vorgefertigten Python-Files
+    if project_type.upper() == "DA":
+        # DA: nur __init__.py in Unterordnern – keine vorgefertigten Python-Files
         # Begruendung: kleine Projekte, eigene Scripts werden bei Bedarf ergaenzt
         files = [
             (f"{base_path}/__init__.py", _init_py(project_name)),
@@ -419,7 +419,7 @@ def plot_correlation_matrix(df: pd.DataFrame, title: str = "Korrelationsmatrix",
 
 def _baseline_py() -> str:
     return '''"""
-baseline.py  (DSC)
+baseline.py  (DS)
 ------------------
 Definition des Baseline-Modells.
 Das Baseline-Modell ist das einfachste sinnvolle Modell –
@@ -449,7 +449,7 @@ def get_classification_baseline(strategy: str = "most_frequent"):
 
 def _train_model_py() -> str:
     return '''"""
-train_model.py  (DSC)
+train_model.py  (DS)
 ---------------------
 Modelltraining und Pipeline-Export.
 """
@@ -503,7 +503,7 @@ def export_model(pipeline, models_dir: Path, filename: str = "pipeline.pkl") -> 
 
 def _evaluate_model_py() -> str:
     return '''"""
-evaluate_model.py  (DSC)
+evaluate_model.py  (DS)
 ------------------------
 Metriken, Fehleranalyse, Interpretation.
 """
@@ -544,7 +544,7 @@ def classification_metrics(y_true, y_pred) -> dict:
 
 def _segment_analysis_py() -> str:
     return '''"""
-segment_analysis.py  (DAN)
+segment_analysis.py  (DA)
 --------------------------
 Marktsegmentierung und Cluster-Analyse.
 """

@@ -1,7 +1,7 @@
 """
-notebooks_dan.py
-----------------
-Notebook-Definitionen fuer den Typ: DAN (Data Analytics)
+notebooks_da.py
+---------------
+Notebook-Definitionen fuer den Typ: DA (Data Analysis)
 
 Notebooks:
   00_introduction.ipynb      - Project Facts, Context, Workflow, Conventions
@@ -144,7 +144,7 @@ def _nb_preparation() -> str:
          "DATA_PROCESSED = Path(\'../data/processed\')\n\n"
          "df_raw = pd.read_csv(DATA_RAW / \'your_file.csv\')\n"
          "df_eda = df_raw.copy()"),
-        ("markdown", "## Train Test Split\n\n> Nur fuer DAN-Projekte mit Modell-Anteil relevant."),
+        ("markdown", "## Train Test Split\n\n> Nur fuer DA-Projekte mit Modell-Anteil relevant."),
         ("code",
          "# from sklearn.model_selection import train_test_split\n"
          "# X_train, X_test = train_test_split(df_eda, test_size=0.2, random_state=42)"),

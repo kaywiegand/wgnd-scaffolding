@@ -1,13 +1,13 @@
 """
-notebooks_dsc.py
-----------------
-Notebook-Definitionen für den Typ: DSC (Data Science)
+notebooks_ds.py
+---------------
+Notebook-Definitionen für den Typ: DS (Data Science)
 
 Jeder Eintrag in get_notebooks() ist ein Tupel:
     (dateipfad_relativ, notebook_json_string)
 
 Die Notebook-Zellen bestehen aus Markdown-Headlines, die die Arbeitsstruktur
-aus dem DSC-Workflow vorstrukturieren. Code-Zellen sind als leere Starter vorbereitet.
+aus dem DS-Workflow vorstrukturieren. Code-Zellen sind als leere Starter vorbereitet.
 
 📝 ANPASSEN: Füge Zellen hinzu, entferne Zellen oder ändere Überschriften
               in den jeweiligen cell-Listen unten.
@@ -18,7 +18,7 @@ from .notebook_helper import make_notebook
 
 def get_notebooks(project_name: str, project_slug: str) -> list[tuple[str, str]]:
     """
-    Gibt alle DSC-Notebooks als (pfad, inhalt)-Liste zurück.
+    Gibt alle DS-Notebooks als (pfad, inhalt)-Liste zurück.
     """
     return [
         ("notebooks/00_introduction.ipynb", _nb_introduction(project_name)),

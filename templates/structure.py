@@ -15,12 +15,12 @@ def get_folders(package_name: str, project_type: str) -> list[str]:
     """
     Gibt eine Liste aller zu erstellenden Ordner zurueck.
 
-    DAN: schlank - kein models/, configs/, docs/
-    DSC: volle Struktur
+    DA: schlank - kein models/, configs/, docs/
+    DS: volle Struktur
     """
     today = datetime.today().strftime("%Y-%m-%d")
 
-    if project_type.upper() == "DAN":
+    if project_type.upper() == "DA":
         return [
             "data/raw",
             "data/interim",
@@ -35,7 +35,7 @@ def get_folders(package_name: str, project_type: str) -> list[str]:
             "public/md",
         ]
 
-    # DSC: volle Struktur
+    # DS: volle Struktur
     return [
         "data/raw",
         "data/interim",

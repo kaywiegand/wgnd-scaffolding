@@ -12,10 +12,10 @@ Jeder Eintrag gibt (pfad, inhalt) zurück.
 
 
 def get_files(project_name: str, project_slug: str, project_type: str) -> list[tuple[str, str]]:
-    if project_type.upper() == "DAN":
-        # DAN: keine YAML-Configs - Pfade und Einstellungen leben in config.py / settings.py
+    if project_type.upper() == "DA":
+        # DA: keine YAML-Configs - Pfade und Einstellungen leben in config.py / settings.py
         return []
-    # DSC: drei YAML-Configs
+    # DS: drei YAML-Configs
     return [
         ("configs/default.yaml",  _default_yaml(project_name, project_type)),
         ("configs/data.yaml",     _data_yaml()),
@@ -32,7 +32,7 @@ def _default_yaml(project_name: str, project_type: str) -> str:
 
 project:
   name: "{project_name}"
-  type: "{project_type}"  # DSC oder DAN
+  type: "{project_type}"  # DS oder DA
   version: "0.1.0"
   random_seed: 42
 
@@ -82,9 +82,9 @@ split:
 
 
 def _model_yaml(project_type: str) -> str:
-    if project_type.upper() == "DAN":
+    if project_type.upper() == "DA":
         return """\
-# model.yaml  (DAN)
+# model.yaml  (DA)
 # -----------------
 # Konfiguration für Analyse-Algorithmen und Cluster-Parameter.
 
@@ -101,9 +101,9 @@ scoring:
     reviews: 0.3
     price:   0.2
 """
-    else:  # DSC
+    else:  # DS
         return """\
-# model.yaml  (DSC)
+# model.yaml  (DS)
 # -----------------
 # Hyperparameter und Modell-Konfiguration.
 #
