@@ -18,6 +18,34 @@
 
 ## Verlauf
 
+### 2026-07-03 — README: Notebooks-Tabelle + Report-Link aus Single Source, Tree-Drift behoben
+
+**Kontext:** `/project-review` auf `zh-tram-data` (Toolchain-Testlauf) fand zwei Lücken im Generator:
+(1) die README verwies nie auf `public/index.html` als öffentlichen Einstieg, (2) die Notebook-Liste
+war im README-Template hartkodiert und dem Notebook-Generator hinterhergedriftet — der DS-Struktur-Tree
+zeigte noch alte Namen (`02_preparation/03_analysis/04_insights` statt `02_preprocessing/03_modeling/…`).
+
+**Änderungen:**
+
+| Datei | Änderung |
+|:---|:---|
+| `notebooks_da.py` · `notebooks_ds.py` | Neue `_specs()` als **Single Source of Truth** (Reihenfolge · Dateiname · Zweck · Builder). `get_notebooks()` + neues `get_notebook_index()` leiten beide daraus ab. |
+| `generator.py` | `get_notebook_index()` importiert, Index vor `get_readme()` berechnet + durchgereicht. |
+| `readme_template.py` | Struktur-Tree, verlinkte **Notebooks-Tabelle** und `## Report`-Section (Link auf `public/index.html`) werden aus dem Index generiert — keine hartkodierten Notebook-Listen mehr. |
+
+**Warum Single Source:** zwei Listen für dieselbe Sache driften garantiert (war bereits passiert) —
+verstößt gegen das CONVENTIONS-Prinzip „gleicher Fakt nie in zwei Files", hier im Generator-Code selbst.
+
+**Verifiziert:** voller Generatorlauf DA (5 NBs) + DS (6 NBs), README rendert Tree + Tabelle + Report
+korrekt, DS-Tree jetzt drift-frei.
+
+**Offen (ins Workspace-`docs/BACKLOG.md`):** #11 — CLI `choices` akzeptiert kein `DE` (`generator.py:145`),
+DE-Projekte fallen bei der Arg-Validierung durch, obwohl sie die DA-Struktur erben.
+
+**Nächster Schritt:** Backlog #2/#5/#3 (Slug-Fixes / MD-Generierung) + neu #11 (DE-CLI-Choice).
+
+---
+
 ### 2026-07-01 — Web-Root reports/ → public/, mds/ → md/
 
 **Kontext:** `reports/` als Web-Root ist veraltet — Kay nutzt in neuen Projekten
