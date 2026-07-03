@@ -16,18 +16,32 @@ aus dem DS-Workflow vorstrukturieren. Code-Zellen sind als leere Starter vorbere
 from .notebook_helper import make_notebook
 
 
-def get_notebooks(project_name: str, project_slug: str) -> list[tuple[str, str]]:
+def _specs(project_name: str) -> list[tuple[str, str, object]]:
     """
-    Gibt alle DS-Notebooks als (pfad, inhalt)-Liste zurück.
+    Single Source of Truth: Reihenfolge · Dateiname (ohne .ipynb) · Zweck · Zell-Builder.
+    get_notebooks() und get_notebook_index() leiten beide hieraus ab — keine Drift.
     """
     return [
-        ("notebooks/00_introduction.ipynb", _nb_introduction(project_name)),
-        ("notebooks/01_exploration.ipynb", _nb_exploration()),
-        ("notebooks/02_preprocessing.ipynb", _nb_preprocessing()),
-        ("notebooks/03_modeling.ipynb", _nb_modeling()),
-        ("notebooks/04_evaluation.ipynb", _nb_evaluation()),
-        ("notebooks/05_reporting.ipynb", _nb_reporting()),
+        ("00_introduction", "Projekt-Facts, Kontext, Workflow, Conventions", lambda: _nb_introduction(project_name)),
+        ("01_exploration",  "EDA + Discovery",                               _nb_exploration),
+        ("02_preprocessing", "Split, Cleaning, Feature Engineering, Export", _nb_preprocessing),
+        ("03_modeling",     "Baseline, Training, Hyperparameter Tuning",     _nb_modeling),
+        ("04_evaluation",   "Test-Evaluation, Interpretation, Error Analysis", _nb_evaluation),
+        ("05_reporting",    "Prediction, Business Communication",            _nb_reporting),
     ]
+
+
+def get_notebooks(project_name: str, project_slug: str) -> list[tuple[str, str]]:
+    """Gibt alle DS-Notebooks als (pfad, inhalt)-Liste zurück."""
+    return [(f"notebooks/{name}.ipynb", build()) for name, _purpose, build in _specs(project_name)]
+
+
+def get_notebook_index(project_name: str = "") -> list[tuple[str, str]]:
+    """
+    Leichtgewichtige Liste (dateiname, zweck) für README-Tree + Notebooks-Tabelle.
+    Baut keine Notebook-Inhalte (Builder werden nicht aufgerufen).
+    """
+    return [(name, purpose) for name, purpose, _build in _specs(project_name)]
 
 
 # ─────────────────────────────────────────────────────────────────────────────

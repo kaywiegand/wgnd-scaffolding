@@ -16,14 +16,31 @@ ANPASSEN: Aendere Zellen-Inhalte in den jeweiligen _nb_*()-Funktionen.
 from .notebook_helper import make_notebook
 
 
-def get_notebooks(project_name: str, project_slug: str) -> list[tuple[str, str]]:
+def _specs(project_name: str) -> list[tuple[str, str, object]]:
+    """
+    Single Source of Truth: Reihenfolge · Dateiname (ohne .ipynb) · Zweck · Zell-Builder.
+    get_notebooks() und get_notebook_index() leiten beide hieraus ab — keine Drift.
+    """
     return [
-        ("notebooks/00_introduction.ipynb",      _nb_introduction(project_name)),
-        ("notebooks/01_exploration.ipynb",       _nb_exploration()),
-        ("notebooks/02_preparation.ipynb",       _nb_preparation()),
-        ("notebooks/03_analysis.ipynb",          _nb_analysis()),
-        ("notebooks/04_insights.ipynb",          _nb_insights()),
+        ("00_introduction", "Projekt-Facts, Kontext, Workflow, Conventions", lambda: _nb_introduction(project_name)),
+        ("01_exploration",  "EDA + Discovery",                               _nb_exploration),
+        ("02_preparation",  "Preparation + Preprocessing, Export",           _nb_preparation),
+        ("03_analysis",     "Import, Analysis + Analytics",                  _nb_analysis),
+        ("04_insights",     "Business Communication + Insights",             _nb_insights),
     ]
+
+
+def get_notebooks(project_name: str, project_slug: str) -> list[tuple[str, str]]:
+    """Gibt alle DA-Notebooks als (pfad, inhalt)-Liste zurück."""
+    return [(f"notebooks/{name}.ipynb", build()) for name, _purpose, build in _specs(project_name)]
+
+
+def get_notebook_index(project_name: str = "") -> list[tuple[str, str]]:
+    """
+    Leichtgewichtige Liste (dateiname, zweck) für README-Tree + Notebooks-Tabelle.
+    Baut keine Notebook-Inhalte (Builder werden nicht aufgerufen).
+    """
+    return [(name, purpose) for name, purpose, _build in _specs(project_name)]
 
 
 def _nb_introduction(project_name: str) -> str:

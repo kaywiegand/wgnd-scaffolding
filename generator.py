@@ -39,8 +39,8 @@ from templates.config_files   import get_files as get_config_files
 from templates.test_files     import get_files as get_test_files
 from templates.docs_files     import get_files as get_docs_files
 from templates.readme_template import get_readme
-from templates.notebooks_ds   import get_notebooks as get_notebooks_ds
-from templates.notebooks_da   import get_notebooks as get_notebooks_da
+from templates.notebooks_ds   import get_notebooks as get_notebooks_ds, get_notebook_index as get_index_ds
+from templates.notebooks_da   import get_notebooks as get_notebooks_da, get_notebook_index as get_index_da
 
 
 # ─── Farb-Codes für die Konsolen-Ausgabe ───────────────────────────────────
@@ -233,7 +233,8 @@ def main() -> None:
     # ── 3. README.md ──────────────────────────────────────────────────────
     head("3/5  README.md")
     try:
-        readme_content = get_readme(project_name, project_slug, project_type, package_name)
+        nb_index = get_index_ds() if project_type == "DS" else get_index_da()
+        readme_content = get_readme(project_name, project_slug, project_type, package_name, nb_index)
         write_file(project_dir, "README.md", readme_content)
     except Exception as e:
         errors.append(f"README.md: {e}")
